@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ahorcado", "Ahorcado\Ahorcado.csproj", "{EFB4B008-4FA5-4FDB-A8CD-5CAF58C7AC91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClasesAhorcado", "ClasesAhorcado\ClasesAhorcado.csproj", "{B46AD92B-A3A5-4FE5-AF24-EC59867351BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFB4B008-4FA5-4FDB-A8CD-5CAF58C7AC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB4B008-4FA5-4FDB-A8CD-5CAF58C7AC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB4B008-4FA5-4FDB-A8CD-5CAF58C7AC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB4B008-4FA5-4FDB-A8CD-5CAF58C7AC91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B46AD92B-A3A5-4FE5-AF24-EC59867351BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B46AD92B-A3A5-4FE5-AF24-EC59867351BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B46AD92B-A3A5-4FE5-AF24-EC59867351BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B46AD92B-A3A5-4FE5-AF24-EC59867351BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8300C88C-A501-4D3B-912D-57995C98FE94}
+	EndGlobalSection
+EndGlobal
