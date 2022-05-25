@@ -4,14 +4,38 @@
     {
         public string letrasUsadas = "";
         public string Palabra{get; set;}
+        public int vidas { get; set;}
+        private Resultados resultadoFinal;
+        public Resultados ResultadoFinal { 
+            get
+            {
+                if (vidas==0)
+                {
+                    resultadoFinal=Resultados.Perdiste;
+                    return resultadoFinal;
+                }
+                return Resultados.Acierto;
+            } 
+            set
+            {
+                resultadoFinal=ResultadoFinal;
+            }}
+        public char[] estado { get; } 
 
         public Juego(string palabra)
         {
-            Palabra=palabra;
+            Palabra=palabra.ToLower();
+            vidas = 7;
+            estado=palabra.ToCharArray();
+            for(int i=0; i < estado.Length; i++)
+            {
+                estado[i] = '_';
+            }
         }
         
         public bool LeerLetra(char input)
         {
+            input = char.ToLower(input);
             if (letrasUsadas.Contains(input))
             {
                 return false;
@@ -22,17 +46,49 @@
                 return true;
             }
         }
-
-        public bool verificar(char input)
+        public bool verificarVidas()
         {
-            if(LeerLetra(input))
+            if(vidas == 0)
             {
-                if (Palabra.Contains(input))
+                return false;
+            }
+            return true;
+        }
+        public Resultados verificar(char input)
+        {
+            input = char.ToLower(input);
+            if (verificarVidas())
+            {
+                if (LeerLetra(input))
                 {
-                    return true;
+                    if (Palabra.Contains(input))
+                    {
+                        fillEstado(input);
+                        return Resultados.Acierto;
+                    }
+                }
+                vidas -= 1;
+                return Resultados.Error;
+            }
+            resultadoFinal = Resultados.Perdiste;
+            return resultadoFinal;
+        }
+
+        private void fillEstado(char input)
+        {
+            for (int i = 0; i < estado.Length; i++)
+            {
+                if(Palabra.ToCharArray()[i] == input) 
+                {
+                    estado[i] = input;
                 }
             }
-            return false;
         }
+    }
+    public enum Resultados
+    {
+        Acierto,
+        Error,
+        Perdiste,
     }
 }

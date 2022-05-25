@@ -21,12 +21,65 @@ namespace Ahorcado
         }
 
         [Test]
+        public void TestNoPertenece()
+        {
+            Juego j = new Juego("psicologo");
+            Resultados b=j.verificar('ñ');
+
+            Assert.AreEqual(Resultados.Error, b);
+        }
+        [Test]
         public void TestPertenece()
         {
             Juego j = new Juego("psicologo");
-            bool b=j.verificar('ñ');
+            Resultados b = j.verificar('p');
 
-            Assert.AreEqual(false, b);
+            Assert.AreEqual(Resultados.Acierto, b);
+        }
+
+        [Test]
+        public void TestVidas()
+        {
+            Juego j = new Juego("psicologo");
+            j.verificar('ñ');
+            Assert.AreEqual(6, j.vidas);
+        }
+        [Test]
+        public void TestJuegoPerdido()
+        {
+            Juego j = new Juego("psicologo");
+            j.verificar('a');
+            j.verificar('e');
+            j.verificar('u');
+            j.verificar('ñ');
+            j.verificar('b');
+            j.verificar('r');
+            j.verificar('t');
+            Assert.AreEqual(Resultados.Perdiste, j.ResultadoFinal);
+        }
+        [Test]
+        public void TestJuegoPerdido2()
+        {
+            Juego j = new Juego("psicologo");
+            j.verificar('a');
+            j.verificar('e');
+            j.verificar('u');
+            j.verificar('ñ');
+            j.verificar('b');
+            j.verificar('r');
+            j.verificar('w');
+            j.verificar('t');
+            Assert.AreEqual(Resultados.Perdiste, j.ResultadoFinal);
+        }
+
+        [Test]
+        public void TestdeEstado()
+        {
+            Juego j = new Juego("skere");
+            j.verificar('a');
+            j.verificar('s');
+            j.verificar('e');
+            Assert.AreEqual("s_e_e".ToCharArray(), j.estado);
         }
     }
 }
