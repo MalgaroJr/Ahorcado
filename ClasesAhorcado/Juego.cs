@@ -9,6 +9,10 @@
         public Resultados ResultadoFinal { 
             get
             {
+                if(resultadoFinal==Resultados.Ganaste)
+                {
+                    return resultadoFinal;
+                }
                 if (vidas==0)
                 {
                     resultadoFinal=Resultados.Perdiste;
@@ -57,6 +61,8 @@
         public Resultados verificar(char input)
         {
             input = char.ToLower(input);
+            
+
             if (verificarVidas())
             {
                 if (LeerLetra(input))
@@ -64,6 +70,12 @@
                     if (Palabra.Contains(input))
                     {
                         fillEstado(input);
+                        string a = new string(estado);
+                        if (Palabra.Equals(a))
+                        {
+                            resultadoFinal = Resultados.Ganaste;
+                            return Resultados.Ganaste;
+                        }
                         return Resultados.Acierto;
                     }
                 }
@@ -90,5 +102,6 @@
         Acierto,
         Error,
         Perdiste,
+        Ganaste,
     }
 }

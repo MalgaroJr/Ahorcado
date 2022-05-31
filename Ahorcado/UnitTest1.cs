@@ -81,5 +81,17 @@ namespace Ahorcado
             j.verificar('e');
             Assert.AreEqual("s_e_e".ToCharArray(), j.estado);
         }
+
+        [Test]
+        public void TestGana()
+        {
+            Juego j = new Juego("skere");
+            j.verificar('a');
+            j.verificar('s');
+            j.verificar('e');
+            j.verificar('r');
+            j.verificar('k');
+            Assert.AreEqual(Resultados.Ganaste, j.ResultadoFinal);
+        }
     }
 }
