@@ -26,5 +26,6 @@ namespace ClasesAhorcado
 
         }
         public int CantUsuarios{get{return usuarios.Count();} }
+        public int CantUsuariosHoy { get { return usuarios.Where(u => u.fechaCreacion == DateTime.Today).Count();} }
     }
 }

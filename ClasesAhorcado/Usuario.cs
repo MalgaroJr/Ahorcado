@@ -13,11 +13,13 @@ namespace ClasesAhorcado
         public string Password { get; set; }
         List<Juego> JuegoList { get; set; }
         public static int C = 0;
+        public DateTime fechaCreacion { get; set; }
 
         public Usuario()
         {
             Id= genId();
             JuegoList=new List<Juego>();
+            fechaCreacion = DateTime.Today;
         }
         
         public Usuario(string n, string p):base()
