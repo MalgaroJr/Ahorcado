@@ -16,12 +16,12 @@ namespace ClasesAhorcado
 
         public Usuario()
         {
+            Id= genId();
             JuegoList=new List<Juego>();
         }
         
         public Usuario(string n, string p):base()
         {
-            Id= genId();
             Password=p;
             Name=n;
         }

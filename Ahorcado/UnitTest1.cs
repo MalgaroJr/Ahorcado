@@ -108,6 +108,14 @@ namespace Ahorcado
             m.nuevoUsuario(new Usuario());
             Assert.AreEqual(2, m.CantUsuarios);
         }
-
+        [Test]
+        public void TestEliminarUsuarios()
+        {
+            Mesa m = new Mesa();
+            m.nuevoUsuario(new Usuario());
+            m.nuevoUsuario(new Usuario());
+            m.eliminarUsuario(1);
+            Assert.AreEqual(1, m.CantUsuarios);
+        }
     }
 }
