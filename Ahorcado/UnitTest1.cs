@@ -93,5 +93,21 @@ namespace Ahorcado
             j.verificar('k');
             Assert.AreEqual(Resultados.Ganaste, j.ResultadoFinal);
         }
+
+        [Test]
+        public void TestNuevoUsuario()
+        {
+            Usuario u = new Usuario();
+            Assert.AreEqual(1,1);
+        }
+        [Test]
+        public void TestcantUsuarios()
+        {
+            Mesa m = new Mesa();
+            m.nuevoUsuario(new Usuario());
+            m.nuevoUsuario(new Usuario());
+            Assert.AreEqual(2, m.CantUsuarios);
+        }
+
     }
 }
