@@ -14,6 +14,7 @@ namespace ClasesAhorcado
         List<Juego> JuegoList { get; set; }
         public static int C = 0;
         public DateTime fechaCreacion { get; set; }
+        public DateTime fechaEliminacion { get; set; }
 
         public Usuario()
         {
