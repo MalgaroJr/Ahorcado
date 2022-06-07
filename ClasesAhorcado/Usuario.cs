@@ -11,7 +11,7 @@ namespace ClasesAhorcado
         public int Id { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        List<Juego> JuegoList { get; set; }
+        public List<Juego> Juegos { get; set; }
         public static int C = 0;
         public DateTime fechaCreacion { get; set; }
         public DateTime fechaEliminacion { get; set; }
@@ -19,7 +19,7 @@ namespace ClasesAhorcado
         public Usuario()
         {
             Id= genId();
-            JuegoList=new List<Juego>();
+            Juegos=new List<Juego>();
             fechaCreacion = DateTime.Today;
         }
         
@@ -33,6 +33,19 @@ namespace ClasesAhorcado
         {
             C+=1;
             return C;
+        }
+
+        public void nuevoJuego()
+        {
+            Juego j = new Juego("skere");
+            Juegos.Add(j);
+           
+        }
+
+        public Resultados Ingresar(char v)
+        {
+            Juego j = Juegos.Last();
+            return j.verificar(v);
         }
     }
 }

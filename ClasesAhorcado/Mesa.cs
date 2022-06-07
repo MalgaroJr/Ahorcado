@@ -16,21 +16,48 @@ namespace ClasesAhorcado
         }
         public void eliminarUsuario(int id)
         {
-            foreach(Usuario u in usuarios)
+            Usuario u = getUsuario(id);
+            if (u != null)
             {
-                if(u.Id==id)
+                u.fechaEliminacion = DateTime.Today;
+                bajaUsuarios.Add(u);
+                usuarios.Remove(u);
+            }
+        }
+        public Usuario getUsuario(int id)
+        {
+            foreach (Usuario u in usuarios)
+            {
+                if (u.Id == id)
                 {
-                    u.fechaEliminacion = DateTime.Today;
-                    bajaUsuarios.Add(u);
-                    usuarios.Remove(u);
-                    break;
+                    return u;
                 }
             }
-
+            return null;
         }
         public int CantUsuarios{get{return usuarios.Count();} }
         public int CantUsuariosHoy { get { return usuarios.Where(u => u.fechaCreacion == DateTime.Today).Count();} }
 
-        public double CantElimHoy { get { return bajaUsuarios.Where(u => u.fechaEliminacion == DateTime.Today).Count(); } }
+        public int CantElimHoy { get { return bajaUsuarios.Where(u => u.fechaEliminacion == DateTime.Today).Count(); } }
+
+        public int VictoriasUsuario(int id)
+        {
+            Usuario u = getUsuario(id);
+            if (u != null)
+            {
+                return u.Juegos.Where(j => j.ResultadoFinal == Resultados.Ganaste).Count();
+            }
+            return -1;
+        }
+
+        public int DerrotasUsuario(int id)
+        {
+            Usuario u = getUsuario(id);
+            if (u != null)
+            {
+                return u.Juegos.Where(j => j.ResultadoFinal == Resultados.Perdiste).Count();
+            }
+            return -1;
+        }
     }
 }

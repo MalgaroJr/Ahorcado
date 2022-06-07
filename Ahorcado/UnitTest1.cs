@@ -8,7 +8,7 @@ namespace Ahorcado
         [SetUp]
         public void Setup()
         {
-            
+
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Ahorcado
         public void TestNoPertenece()
         {
             Juego j = new Juego("psicologo");
-            Resultados b=j.verificar('ñ');
+            Resultados b = j.verificar('ñ');
 
             Assert.AreEqual(Resultados.Error, b);
         }
@@ -98,8 +98,29 @@ namespace Ahorcado
         public void TestNuevoUsuario()
         {
             Usuario u = new Usuario();
-            Assert.AreEqual(1,1);
+            Assert.AreEqual(1, 1);
         }
+
+        [Test]
+        public void TestUsuarioJuego()
+        {
+            Usuario u = new Usuario();
+            u.nuevoJuego();
+            Assert.AreEqual(1, u.Juegos.Count);
+        }
+        [Test]
+        public void TestUsuarioGana()
+        {
+            Usuario u = new Usuario();
+            u.nuevoJuego();
+            u.Ingresar('k');
+            u.Ingresar('s');
+            u.Ingresar('e');
+            Resultados r=u.Ingresar('r');
+            Assert.AreEqual(Resultados.Ganaste, r);
+            
+        }
+
         [Test]
         public void TestcantUsuarios()
         {
@@ -130,9 +151,45 @@ namespace Ahorcado
         {
             Mesa m = new Mesa();
             m.nuevoUsuario(new Usuario());
-            m.nuevoUsuario(new Usuario()); 
+            m.nuevoUsuario(new Usuario());
             m.eliminarUsuario(1);
             Assert.AreEqual(1, m.CantElimHoy);
+        }
+        
+        [Test]
+        public void TestCantGanadasxUsuario()
+        {
+            Mesa m = new Mesa();
+            Usuario u = new Usuario();
+            m.nuevoUsuario(u);
+            for (int i = 0; i < 9; i++)
+            {
+                u.nuevoJuego();
+                u.Ingresar('k');
+                u.Ingresar('s');
+                u.Ingresar('e');
+                u.Ingresar('r');
+            }
+            Assert.AreEqual(9, m.VictoriasUsuario(1));     
+        }
+        [Test]
+        public void TestCantPerdidasxUsuario()
+        {
+            Mesa m = new Mesa();
+            Usuario u = new Usuario();
+            m.nuevoUsuario(u);
+            for (int i = 0; i < 9; i++)
+            {
+                u.nuevoJuego();
+                u.Ingresar('a');
+                u.Ingresar('b');
+                u.Ingresar('c');
+                u.Ingresar('d');
+                u.Ingresar('f');
+                u.Ingresar('g');
+                u.Ingresar('h');
+            }
+            Assert.AreEqual(9, m.DerrotasUsuario(1));
         }
     }
 }
