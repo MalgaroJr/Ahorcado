@@ -191,5 +191,17 @@ namespace Ahorcado
             }
             Assert.AreEqual(9, m.DerrotasUsuario(1));
         }
+        [Test]
+        public void PartidasUsuario()
+        {
+            Mesa m = new Mesa();
+            Usuario u = new Usuario();
+            m.nuevoUsuario(u);
+            for (int i = 0; i < 10; i++)
+            {
+                u.nuevoJuego();
+            }
+            Assert.AreEqual(10, m.PartidasUsuario(1));
+        }
     }
 }

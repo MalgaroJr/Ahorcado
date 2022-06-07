@@ -33,7 +33,7 @@ namespace ClasesAhorcado
                     return u;
                 }
             }
-            return null;
+            throw new Exception("no hay usuario con ese ID");
         }
         public int CantUsuarios{get{return usuarios.Count();} }
         public int CantUsuariosHoy { get { return usuarios.Where(u => u.fechaCreacion == DateTime.Today).Count();} }
@@ -56,6 +56,15 @@ namespace ClasesAhorcado
             if (u != null)
             {
                 return u.Juegos.Where(j => j.ResultadoFinal == Resultados.Perdiste).Count();
+            }
+            return -1;
+        }
+        public int PartidasUsuario(int id)
+        {
+            Usuario u = getUsuario(id);
+            if (u != null)
+            {
+                return u.Juegos.Count();
             }
             return -1;
         }
