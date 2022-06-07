@@ -35,9 +35,9 @@ namespace ClasesAhorcado
             return C;
         }
 
-        public void nuevoJuego()
+        public void nuevoJuego( string palabra )
         {
-            Juego j = new Juego("skere");
+            Juego j = new Juego(palabra);
             Juegos.Add(j);
            
         }

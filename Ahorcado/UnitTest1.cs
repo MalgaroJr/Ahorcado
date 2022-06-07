@@ -105,14 +105,14 @@ namespace Ahorcado
         public void TestUsuarioJuego()
         {
             Usuario u = new Usuario();
-            u.nuevoJuego();
+            u.nuevoJuego("skere");
             Assert.AreEqual(1, u.Juegos.Count);
         }
         [Test]
         public void TestUsuarioGana()
         {
             Usuario u = new Usuario();
-            u.nuevoJuego();
+            u.nuevoJuego("skere");
             u.Ingresar('k');
             u.Ingresar('s');
             u.Ingresar('e');
@@ -164,7 +164,7 @@ namespace Ahorcado
             m.nuevoUsuario(u);
             for (int i = 0; i < 9; i++)
             {
-                u.nuevoJuego();
+                u.nuevoJuego("skere");
                 u.Ingresar('k');
                 u.Ingresar('s');
                 u.Ingresar('e');
@@ -180,7 +180,7 @@ namespace Ahorcado
             m.nuevoUsuario(u);
             for (int i = 0; i < 9; i++)
             {
-                u.nuevoJuego();
+                u.nuevoJuego("skere");
                 u.Ingresar('a');
                 u.Ingresar('b');
                 u.Ingresar('c');
@@ -199,7 +199,7 @@ namespace Ahorcado
             m.nuevoUsuario(u);
             for (int i = 0; i < 10; i++)
             {
-                u.nuevoJuego();
+                u.nuevoJuego("skere");
             }
             Assert.AreEqual(10, m.PartidasUsuario(1));
         }
