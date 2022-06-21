@@ -204,7 +204,7 @@ namespace Ahorcado
             m.nuevoUsuario(u);
             for (int i = 0; i < 10; i++)
             {
-                u.nuevoJuego("skere");
+                u.nuevoJuego("skere");//kk
             }
             Assert.AreEqual(10, m.PartidasUsuario(1));
         }
