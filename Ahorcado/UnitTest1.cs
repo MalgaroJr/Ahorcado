@@ -132,6 +132,7 @@ namespace Ahorcado
         [Test]
         public void TestEliminarUsuarios()
         {
+            Usuario.Reset();
             Mesa m = new Mesa();
             m.nuevoUsuario(new Usuario());
             m.nuevoUsuario(new Usuario());
@@ -149,6 +150,7 @@ namespace Ahorcado
         [Test]
         public void TestEliminarUsuariosHoy()
         {
+            Usuario.Reset();
             Mesa m = new Mesa();
             m.nuevoUsuario(new Usuario());
             m.nuevoUsuario(new Usuario());
@@ -159,6 +161,7 @@ namespace Ahorcado
         [Test]
         public void TestCantGanadasxUsuario()
         {
+            Usuario.Reset();
             Mesa m = new Mesa();
             Usuario u = new Usuario();
             m.nuevoUsuario(u);
@@ -175,6 +178,7 @@ namespace Ahorcado
         [Test]
         public void TestCantPerdidasxUsuario()
         {
+            Usuario.Reset();
             Mesa m = new Mesa();
             Usuario u = new Usuario();
             m.nuevoUsuario(u);
@@ -194,6 +198,7 @@ namespace Ahorcado
         [Test]
         public void PartidasUsuario()
         {
+            Usuario.Reset();
             Mesa m = new Mesa();
             Usuario u = new Usuario();
             m.nuevoUsuario(u);
