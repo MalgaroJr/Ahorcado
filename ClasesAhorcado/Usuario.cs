@@ -22,13 +22,13 @@ namespace ClasesAhorcado
             Juegos = new List<Juego>();
             fechaCreacion = DateTime.Today;
         }
-        
-        public Usuario(string n, string p):base()
+
+        public Usuario(string n, string p) : base()
         {
             Password = p;
             Name = n;
         }
-        
+
         private static int genId()
         {
             C += 1;
@@ -39,7 +39,7 @@ namespace ClasesAhorcado
         {
             Juego j = new Juego(palabra);
             Juegos.Add(j);
-           
+
         }
 
         public Resultados Ingresar(char v)

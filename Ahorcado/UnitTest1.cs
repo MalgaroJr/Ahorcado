@@ -24,7 +24,7 @@ namespace Ahorcado
         public void TestNoPertenece()
         {
             Juego j = new Juego("psicologo");
-            Resultados b = j.verificar('ñ');
+            Resultados b = j.verificar('ï¿½');
 
             Assert.AreEqual(Resultados.Error, b);
         }
@@ -41,7 +41,7 @@ namespace Ahorcado
         public void TestVidas()
         {
             Juego j = new Juego("psicologo");
-            j.verificar('ñ');
+            j.verificar('ï¿½');
             Assert.AreEqual(6, j.vidas);
         }
         [Test]
@@ -51,7 +51,7 @@ namespace Ahorcado
             j.verificar('a');
             j.verificar('e');
             j.verificar('u');
-            j.verificar('ñ');
+            j.verificar('ï¿½');
             j.verificar('b');
             j.verificar('r');
             j.verificar('t');
@@ -64,7 +64,7 @@ namespace Ahorcado
             j.verificar('a');
             j.verificar('e');
             j.verificar('u');
-            j.verificar('ñ');
+            j.verificar('ï¿½');
             j.verificar('b');
             j.verificar('r');
             j.verificar('w');
@@ -116,9 +116,9 @@ namespace Ahorcado
             u.Ingresar('k');
             u.Ingresar('s');
             u.Ingresar('e');
-            Resultados r=u.Ingresar('r');
+            Resultados r = u.Ingresar('r');
             Assert.AreEqual(Resultados.Ganaste, r);
-            
+
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace Ahorcado
             m.eliminarUsuario(1);
             Assert.AreEqual(1, m.CantElimHoy);
         }
-        
+
         [Test]
         public void TestCantGanadasxUsuario()
         {
@@ -173,7 +173,7 @@ namespace Ahorcado
                 u.Ingresar('e');
                 u.Ingresar('r');
             }
-            Assert.AreEqual(9, m.VictoriasUsuario(1));     
+            Assert.AreEqual(9, m.VictoriasUsuario(1));
         }
         [Test]
         public void TestCantPerdidasxUsuario()
@@ -204,7 +204,7 @@ namespace Ahorcado
             m.nuevoUsuario(u);
             for (int i = 0; i < 10; i++)
             {
-                u.nuevoJuego("skere");
+                u.nuevoJuego("skere");//kk
             }
             Assert.AreEqual(10, m.PartidasUsuario(1));
         }
