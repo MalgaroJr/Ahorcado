@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahorcado", "Ahorcado\Ahorca
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClasesAhorcado", "ClasesAhorcado\ClasesAhorcado.csproj", "{B46AD92B-A3A5-4FE5-AF24-EC59867351BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{230C370C-7C3C-4480-8120-35F2CA0D5187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{230C370C-7C3C-4480-8120-35F2CA0D5187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUI", "TestUI\TestUI.csproj", "{22E3E71C-3299-45A6-8F7B-C965CBFE8C74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUI", "TestUI\TestUI.csproj", "{22E3E71C-3299-45A6-8F7B-C965CBFE8C74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

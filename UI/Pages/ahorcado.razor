@@ -1,0 +1,86 @@
+﻿@page "/Ahorcado"
+@using ClasesAhorcado
+
+<PageTitle>Ahorcado</PageTitle>
+<style>
+    .rojo{
+        color: #D51813;
+    }
+    .verde{
+        color: #1BCE32;
+    }
+</style>
+<body>
+    <div class="container-fluid">  
+        <div class="row">
+            <div class="col">
+                <label>Palabra a adivinar</label>
+                <input type="password" class="form-control" name="palabra" @bind="@palabra" />
+            </div>
+            <div class="col">
+                <br />
+                <button type="button" class="btn btn-primary" @onclick="genPalabra">Ingresar</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label>Ingrese letra o palabra</label>
+                <input type="text" class="form-control" name="letra" @bind="intento"/>
+            </div>
+            <div class="col-1">
+                <br />
+                <button type="button" class="btn btn-success" @onclick="probar">Probar</button>
+            </div>
+            <div class="col">
+                <label>Letras usadas</label>
+                <br />
+                <label class="rojo">@letras</label> 
+            </div>
+            <div class="col">
+                <label>Vidas restantes</label>
+                <br />
+                <label>@vidas</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-center">
+                <h3>@palabraAdivina</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-center">
+                <h3>@resultado</h3>
+            </div>
+        </div>
+    </div>
+</body>
+
+@code {
+    private string palabra;
+    private string intento;
+    private string letras;
+    private int vidas;
+    private string resultado;
+    private string palabraAdivina;
+    private Usuario u = new Usuario();
+    private void genPalabra()
+    {
+        u.nuevoJuego(palabra);
+    }
+    private void probar()
+    {
+        char i = intento[0];
+        Resultados r = u.Ingresar(i);
+        palabraAdivina = u.getEstado();
+        letras = u.getLetras();
+        vidas = u.getVidas();
+        if(r == Resultados.Ganaste)
+        {
+            resultado = "Ganaste!";
+        }
+        else if(r == Resultados.Perdiste)
+        {
+            resultado = "Perdiste! :(";
+        }
+    }
+}

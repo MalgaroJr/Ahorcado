@@ -47,6 +47,26 @@ namespace ClasesAhorcado
             Juego j = Juegos.Last();
             return j.verificar(v);
         }
+        public string getEstado()
+        {
+            Juego j = Juegos.Last();
+            string est = "";
+            for (int i = 0; i < j.estado.Length; i++)
+            {
+                est += j.estado[i] + " ";
+            }
+            return est;
+        }
+        public string getLetras()
+        {
+            Juego j = Juegos.Last();
+            return j.letrasUsadas;
+        }
+        public int getVidas()
+        {
+            Juego j = Juegos.Last();
+            return j.vidas;
+        }
         public static void Reset()
         {
             C = 0;
