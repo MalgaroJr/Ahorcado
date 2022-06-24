@@ -1,27 +1,33 @@
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Reflection;
 
-namespace TestUI
+namespace UITests
 {
-    public class Tests
+    [TestClass]
+    public class UnitTest1
     {
         public IWebDriver driver;
-        public string site;
-        private string appURL;
-        [SetUp]
-        public void Setup()
+        public string site= "https://google.com";
+        private string appURL="";
+
+        public void InitializeChrome()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            site = "https://google.com";
-            appURL = "";
+            var options = new ChromeOptions();
+            options.AddArgument("headless");
+            driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), options);
         }
 
-        
-        [Test]
-        public void SeleniumTest()
+        public void CloseChrome()
         {
+            driver.Quit();
+            //driver.Close();
+        }
+
+        [TestMethod]
+        public void GoogleSearchTest()
+        {
+            InitializeChrome();
             driver.Navigate().GoToUrl(site);
             By searchBar = By.Name("q");
             By btnSearch = By.Name("btnK");
@@ -29,22 +35,23 @@ namespace TestUI
 
             //Thread.Sleep(1500);
             //driver.FindElement(agreeBTN).Click();
-            
+
             Thread.Sleep(1500);
             driver.FindElement(searchBar).SendKeys("selenium");
 
             Thread.Sleep(1500);
             driver.FindElement(btnSearch).Click();
             By googleResult1 = By.XPath(".//h2//span[text()='Selenium']");
-            var result=driver.FindElement(googleResult1);
-            Assert.IsTrue(result.Text.Equals("Selenium"));
+            var result = driver.FindElement(googleResult1).Text;
+            CloseChrome();
+            Assert.IsTrue(result.Equals("Selenium"));
         }
-
+        /*
         #region UserABMCTests
-        [Test]
+        [TestMethod]
         public void NewUser()
         {
-            driver.Navigate().GoToUrl(appURL+"/");
+            driver.Navigate().GoToUrl(appURL + "/");
             By regBtn = By.Name("registr");
             driver.FindElement(regBtn).Click();
 
@@ -65,10 +72,10 @@ namespace TestUI
             Assert.IsTrue(result.Equals("Perfil creado con exito!"));
         }
 
-        [Test]
+        [TestMethod]
         public void Login()
         {
-            driver.Navigate().GoToUrl(appURL+"/");
+            driver.Navigate().GoToUrl(appURL + "/");
             By ustInpt = By.Name("user");
             By pwdInpt = By.Name("password");
             By btnLog = By.Name("login");
@@ -80,9 +87,9 @@ namespace TestUI
             driver.Quit();
             driver.Close();
             Assert.IsTrue(txt.Equals("Bienvenido"));
-        } 
+        }
 
-        [Test]
+        [TestMethod]
         public void Logout()
         {
             driver.Navigate().GoToUrl(appURL + "/");
@@ -97,11 +104,11 @@ namespace TestUI
             Assert.IsTrue(s.Equals("Sign In"));
         }
 
-        [Test]
+        [TestMethod]
         public void DeleteUser()
         {
             driver.Navigate().GoToUrl(appURL + "/");
-            By btndelete=By.Name("delete");
+            By btndelete = By.Name("delete");
             By ustInpt = By.Name("user");
             By pwdInpt = By.Name("password");
             By pwdInpt2 = By.Name("password2");
@@ -109,14 +116,14 @@ namespace TestUI
             driver.FindElement(ustInpt).SendKeys("");
             driver.FindElement(pwdInpt).SendKeys("");
             driver.FindElement(pwdInpt2).SendKeys(""); //se pide confirmar contra para eliminar perfil
-            driver.FindElement(btndelete).Click(); 
-            By resultmsg=By.Name("notficacion");
-            string result=driver.FindElement(resultmsg).Text;
+            driver.FindElement(btndelete).Click();
+            By resultmsg = By.Name("notficacion");
+            string result = driver.FindElement(resultmsg).Text;
             driver.Quit();
             driver.Close();
             Assert.IsTrue(result.Equals("Perfil eliminado con exito!"));
         }
         #endregion
-
+        */
     }
 }
