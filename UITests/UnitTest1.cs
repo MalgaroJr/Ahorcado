@@ -46,7 +46,7 @@ namespace UITests
             CloseChrome();
             Assert.IsTrue(result.Equals("Selenium"));
         }
-        /*
+        //*
         #region UserABMCTests
         [TestMethod]
         public void NewUser()
@@ -59,7 +59,7 @@ namespace UITests
             By nameInpt = By.Name("name");
             By pwdInpt = By.Name("password");
             By confpwd = By.Name("confirm");
-            regBtn = By.Name("login");
+            regBtn = By.Name("registrar");
 
             driver.FindElement(ustInpt).SendKeys("");
             driver.FindElement(nameInpt).SendKeys("");
@@ -71,7 +71,7 @@ namespace UITests
             driver.Close();
             Assert.IsTrue(result.Equals("Perfil creado con exito!"));
         }
-
+        /*
         [TestMethod]
         public void Login()
         {

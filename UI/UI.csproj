@@ -15,4 +15,17 @@
     <ProjectReference Include="..\ClasesAhorcado\ClasesAhorcado.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Login.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Login.razor" />
+    <_ContentIncludedByDefault Remove="Shared\InitLayout.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Shared\InitLayout.razor" />
+  </ItemGroup>
+
 </Project>
