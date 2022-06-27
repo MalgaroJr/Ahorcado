@@ -60,7 +60,12 @@ namespace ClasesAhorcado
         public string getLetras()
         {
             Juego j = Juegos.Last();
-            return j.letrasUsadas;
+            string letras = "";
+            for (int i = 0; i < j.letrasUsadas.Length; i++)
+            {
+                letras += j.letrasUsadas[i] + " - ";
+            }
+            return letras;
         }
         public int getVidas()
         {
