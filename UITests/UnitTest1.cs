@@ -8,20 +8,20 @@ namespace UITests
     public class UnitTest1
     {
         public IWebDriver driver;
-        public string site= "https://google.com";
-        private string appURL="";
+        public string site = "https://google.com";
+        private string appURL = "https://localhost:7025";
 
         public void InitializeChrome()
         {
             var options = new ChromeOptions();
-            options.AddArgument("headless");
+            //options.AddArgument("headless");
             driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), options);
         }
 
         public void CloseChrome()
         {
             driver.Quit();
-            //driver.Close();
+            driver.Close();
         }
 
         [TestMethod]
@@ -51,8 +51,14 @@ namespace UITests
         [TestMethod]
         public void NewUser()
         {
-            driver.Navigate().GoToUrl(appURL + "/");
-            By regBtn = By.Name("registr");
+            InitializeChrome();
+            driver.Navigate().GoToUrl(appURL);
+            #region Ubuntu
+            driver.FindElement(By.Id("details-button")).Click();
+            driver.FindElement(By.Id("proceed-link")).Click();
+            #endregion
+            Thread.Sleep(1500);
+            By regBtn = By.Name("registrar");
             driver.FindElement(regBtn).Click();
 
             By ustInpt = By.Name("user");
@@ -61,15 +67,16 @@ namespace UITests
             By confpwd = By.Name("confirm");
             regBtn = By.Name("registrar");
 
-            driver.FindElement(ustInpt).SendKeys("");
-            driver.FindElement(nameInpt).SendKeys("");
-            driver.FindElement(pwdInpt).SendKeys("");
-            driver.FindElement(confpwd).SendKeys("");
+            driver.FindElement(ustInpt).SendKeys("patoC");
+            driver.FindElement(nameInpt).SendKeys("Patricio Cullen");
+            driver.FindElement(pwdInpt).SendKeys("12345");
+            driver.FindElement(confpwd).SendKeys("12345");
+            //Thread.Sleep(1500);
             driver.FindElement(regBtn).Click();
+            Thread.Sleep(1500);
             string result = driver.FindElement(By.Name("notificacion")).Text;
-            driver.Quit();
-            driver.Close();
-            Assert.IsTrue(result.Equals("Perfil creado con exito!"));
+            CloseChrome();
+            Assert.IsTrue(result.Equals("Creando usuario..."));
         }
         /*
         [TestMethod]
@@ -122,8 +129,7 @@ namespace UITests
             driver.Quit();
             driver.Close();
             Assert.IsTrue(result.Equals("Perfil eliminado con exito!"));
-        }
+        }*/
         #endregion
-        */
     }
 }
