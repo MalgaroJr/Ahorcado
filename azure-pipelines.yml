@@ -7,7 +7,8 @@ trigger:
 - master
 
 pool:
-  name: malga    # your job runs on an agent in this pool
+  name: Default    # your job runs on an agent in this pool
+  agent: malga
   demands: agent.os -equals Windows_NT    # the agent must have this capability to run the job
 
 variables:
