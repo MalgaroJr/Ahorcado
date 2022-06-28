@@ -22,3 +22,16 @@ steps:
     command: test
     projects: 'Ahorcado/Ahorcado.csproj'
     arguments: '--configuration $(buildConfiguration)'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SC service'
+    organization: 'tmalgarin'
+    scannerMode: 'MSBuild'
+    projectKey: 'tmalgarin_Ahorcado'
+    projectName: 'Ahorcado'
+
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
