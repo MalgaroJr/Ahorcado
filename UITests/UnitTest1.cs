@@ -21,31 +21,31 @@ namespace UITests
         public void CloseChrome()
         {
             driver.Quit();
-            driver.Close();
+            //driver.Close();
         }
+        /*
+                [TestMethod]
+                public void GoogleSearchTest()
+                {
+                    InitializeChrome();
+                    driver.Navigate().GoToUrl(site);
+                    By searchBar = By.Name("q");
+                    By btnSearch = By.Name("btnK");
+                    //By agreeBTN = By.Id("L2AGLb");
 
-        [TestMethod]
-        public void GoogleSearchTest()
-        {
-            InitializeChrome();
-            driver.Navigate().GoToUrl(site);
-            By searchBar = By.Name("q");
-            By btnSearch = By.Name("btnK");
-            //By agreeBTN = By.Id("L2AGLb");
+                    //Thread.Sleep(1500);
+                    //driver.FindElement(agreeBTN).Click();
 
-            //Thread.Sleep(1500);
-            //driver.FindElement(agreeBTN).Click();
+                    Thread.Sleep(1500);
+                    driver.FindElement(searchBar).SendKeys("selenium");
 
-            Thread.Sleep(1500);
-            driver.FindElement(searchBar).SendKeys("selenium");
-
-            Thread.Sleep(1500);
-            driver.FindElement(btnSearch).Click();
-            By googleResult1 = By.XPath(".//h2//span[text()='Selenium']");
-            var result = driver.FindElement(googleResult1).Text;
-            CloseChrome();
-            Assert.IsTrue(result.Equals("Selenium"));
-        }
+                    Thread.Sleep(1500);
+                    driver.FindElement(btnSearch).Click();
+                    By googleResult1 = By.XPath(".//h2//span[text()='Selenium']");
+                    var result = driver.FindElement(googleResult1).Text;
+                    CloseChrome();
+                    Assert.IsTrue(result.Equals("Selenium"));
+                }*/
         //*
         #region UserABMCTests
         [TestMethod]
