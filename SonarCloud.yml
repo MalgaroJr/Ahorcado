@@ -17,6 +17,12 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SC service'
@@ -25,10 +31,10 @@ steps:
     projectKey: 'tmalgarin_Ahorcado'
     projectName: 'Ahorcado'
 
-- task: DotNetCoreCLI@2
+- task: VSBuild@1
   inputs:
-    command: 'build'
-    projects: '**/*.csproj'
+    solution: '**\*.sln'
+    msbuildArchitecture: 'x64'
 
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
