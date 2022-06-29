@@ -16,13 +16,6 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-  
-# do this after other tasks such as building
-- task: DotNetCoreCLI@2
-  inputs:
-    command: test
-    projects: 'Ahorcado/Ahorcado.csproj'
-    arguments: '--configuration $(buildConfiguration)'
 
 - task: SonarCloudPrepare@1
   inputs:
