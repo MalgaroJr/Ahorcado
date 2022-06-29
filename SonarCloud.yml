@@ -25,6 +25,10 @@ steps:
     projectKey: 'tmalgarin_Ahorcado'
     projectName: 'Ahorcado'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
   inputs:
