@@ -23,7 +23,7 @@ steps:
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis configuration'
   inputs:
-    SonarCloud: 'SC'
+    SonarCloud: 'SC service'
     organization: 'tmalgarin'
     scannerMode: 'MSBuild'
     projectKey: 'tmalgarin_Ahorcado'
