@@ -22,4 +22,8 @@
     <Folder Include="Support\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ClasesAhorcado\ClasesAhorcado.csproj" />
+  </ItemGroup>
+
 </Project>

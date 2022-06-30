@@ -4,6 +4,7 @@ using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
@@ -21,7 +22,7 @@ namespace UITSpecFlow.Drivers
         {
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArgument("headless");
-            driver = new RemoteWebDriver(new Uri("https://localhost:5025"), chromeOptions.ToCapabilities());
+            driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), chromeOptions);
             //set the driver
             _scenarioContext.Set(driver, "WebDriver");
 

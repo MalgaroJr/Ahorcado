@@ -21,17 +21,15 @@ namespace UITSpecFlow.Hooks
         [BeforeScenario(Order = 1)]
         public void FirstBeforeScenario()
         {
-            // Example of ordering the execution of hooks
-            // See https://docs.specflow.org/projects/specflow/en/latest/Bindings/Hooks.html?highlight=order#hook-execution-order
-
-            //TODO: implement logic that has to run before executing each scenario
+            
         }
 
         [AfterScenario]
         public void AfterScenario()
         {
             Console.WriteLine("Selenium webdriver quit");
-            _scenarioContext.Get<IWebDriver>("WebDriver").Quit(); ;
+            _scenarioContext.Get<IWebDriver>("WebDriver").Quit();
+            _scenarioContext.Get<IWebDriver>("WebDriver").Dispose();
         }
     }
 }

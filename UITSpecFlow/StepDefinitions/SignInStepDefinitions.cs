@@ -2,6 +2,8 @@ using OpenQA.Selenium;
 using System;
 using TechTalk.SpecFlow;
 using UITSpecFlow.Drivers;
+using ClasesAhorcado;
+using NUnit.Framework;
 
 namespace UITSpecFlow.StepDefinitions
 {
@@ -10,6 +12,7 @@ namespace UITSpecFlow.StepDefinitions
     {
         IWebDriver driver;
         private readonly ScenarioContext _scenarioContext;
+        private readonly Usuario _usuario = new Usuario(); 
 
         public SignInStepDefinitions(ScenarioContext scenarioContext) => _scenarioContext = scenarioContext;
 
@@ -17,49 +20,51 @@ namespace UITSpecFlow.StepDefinitions
         public void GivenINavigateToAhorcadoWebApp()
         {
             driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").Setup();
-            driver.Url = "https://localhost:5025/registrar";
+            driver.Url = "https://localhost:7025/";
+            Thread.Sleep(4000);
         }
 
         [Given(@"I select sign in")]
         public void GivenISelectSignIn()
         {
-            throw new PendingStepException();
+            driver.FindElement(By.Name("registrar")).Click();
         }
 
-        [Given(@"I entered my user name")]
+        [Given(@"I entered Malga as my user name")]
         public void GivenIEnteredMyUserName()
         {
-            throw new PendingStepException();
+            driver.FindElement(By.Name("user")).SendKeys("Malga");
         }
 
-        [Given(@"I entered my name")]
+        [Given(@"I entered Tomas as my name")]
         public void GivenIEnteredMyName()
         {
-            throw new PendingStepException();
+            driver.FindElement(By.Name("name")).SendKeys("Tomas");
         }
 
-        [Given(@"I entered my password")]
+        [Given(@"I entered tomas1234 as my password")]
         public void GivenIEnteredMyPassword()
         {
-            throw new PendingStepException();
+            driver.FindElement(By.Name("password")).SendKeys("tomas1234");
         }
 
-        [Given(@"I confirmed my password")]
+        [Given(@"I confirmed my password correctly")]
         public void GivenIConfirmedMyPassword()
         {
-            throw new PendingStepException();
+            driver.FindElement(By.Name("confirm")).SendKeys("tomas1234");
         }
 
         [When(@"I click on the sign in button")]
         public void WhenIClickOnTheSignInButton()
         {
-            throw new PendingStepException();
+            driver.FindElement(By.Name("confirm")).SendKeys(Keys.Tab + Keys.Enter);
         }
 
         [Then(@"A new User is created")]
         public void ThenANewUserIsCreated()
         {
-            throw new PendingStepException();
+            string result = driver.FindElement(By.Name("notificacion")).Text;
+            Assert.IsTrue(result.Equals("Creando usuario..."));
         }
     }
 }
