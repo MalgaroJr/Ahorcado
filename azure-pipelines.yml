@@ -26,8 +26,8 @@ steps:
     SonarCloud: 'SC'
     organization: 'tmalgarin'
     scannerMode: 'MSBuild'
-    projectKey: 'dotnet-framework-on-azdo'
-    projectName: 'Sample .NET Framework project with Azure DevOps'
+    projectKey: 'tmalgarin_Ahorcado'
+    projectName: 'Ahorcado'
 
 
 - task: VSBuild@1
