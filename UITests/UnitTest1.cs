@@ -9,19 +9,19 @@ namespace UITests
     {
         public IWebDriver driver;
         public string site = "https://google.com";
-        private string appURL = "https://localhost:7025";
+        private string appURL = "http://localhost:5025/";
 
         public void InitializeChrome()
         {
             var options = new ChromeOptions();
-            //options.AddArgument("headless");
+            options.AddArgument("headless");
             driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), options);
         }
 
         public void CloseChrome()
         {
             driver.Quit();
-            //driver.Close();
+            driver.Dispose();
         }
         /*
                 [TestMethod]
@@ -53,11 +53,7 @@ namespace UITests
         {
             InitializeChrome();
             driver.Navigate().GoToUrl(appURL);
-            #region Ubuntu
-            driver.FindElement(By.Id("details-button")).Click();
-            driver.FindElement(By.Id("proceed-link")).Click();
-            #endregion
-            Thread.Sleep(1500);
+            Thread.Sleep(2000);
             By regBtn = By.Name("registrar");
             driver.FindElement(regBtn).Click();
 
@@ -65,14 +61,14 @@ namespace UITests
             By nameInpt = By.Name("name");
             By pwdInpt = By.Name("password");
             By confpwd = By.Name("confirm");
-            regBtn = By.Name("registrar");
+            regBtn = By.Name("registra");
 
             driver.FindElement(ustInpt).SendKeys("patoC");
             driver.FindElement(nameInpt).SendKeys("Patricio Cullen");
             driver.FindElement(pwdInpt).SendKeys("12345");
-            driver.FindElement(confpwd).SendKeys("12345");
+            driver.FindElement(confpwd).SendKeys("12345" + Keys.Tab + Keys.Enter);
             //Thread.Sleep(1500);
-            driver.FindElement(regBtn).Click();
+            //driver.FindElement(regBtn).Click();
             Thread.Sleep(1500);
             string result = driver.FindElement(By.Name("notificacion")).Text;
             CloseChrome();
@@ -95,7 +91,7 @@ namespace UITests
             driver.Close();
             Assert.IsTrue(txt.Equals("Bienvenido"));
         }
-
+        /*
         [TestMethod]
         public void Logout()
         {
@@ -110,7 +106,7 @@ namespace UITests
             driver.Close();
             Assert.IsTrue(s.Equals("Sign In"));
         }
-
+        /*
         [TestMethod]
         public void DeleteUser()
         {
