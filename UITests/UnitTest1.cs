@@ -14,7 +14,7 @@ namespace UITests
         public void InitializeChrome()
         {
             var options = new ChromeOptions();
-            //options.AddArgument("headless");
+            options.AddArgument("headless");
             driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), options);
         }
 
@@ -70,9 +70,9 @@ namespace UITests
             driver.FindElement(ustInpt).SendKeys("patoC");
             driver.FindElement(nameInpt).SendKeys("Patricio Cullen");
             driver.FindElement(pwdInpt).SendKeys("12345");
-            driver.FindElement(confpwd).SendKeys("12345");
+            driver.FindElement(confpwd).SendKeys("12345"+Keys.Tab+Keys.Enter);
             //Thread.Sleep(1500);
-            driver.FindElement(regBtn).Click();
+            //driver.FindElement(regBtn).Click();
             Thread.Sleep(1500);
             string result = driver.FindElement(By.Name("notificacion")).Text;
             CloseChrome();
