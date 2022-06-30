@@ -1,8 +1,3 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - master
 
@@ -12,27 +7,48 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  buildPlatform: 'any cpu'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-  
-# do this after other tasks such as building
-- task: DotNetCoreCLI@2
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.4.1'
   inputs:
-    command: test
-    projects: 'Ahorcado/Ahorcado.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    versionSpec: 4.4.1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: 'SomeConsoleApplication.sln'
 
 - task: SonarCloudPrepare@1
+  displayName: 'Prepare analysis configuration'
   inputs:
-    SonarCloud: 'SC service'
+    SonarCloud: 'SC'
     organization: 'tmalgarin'
     scannerMode: 'MSBuild'
-    projectKey: 'tmalgarin_Ahorcado'
-    projectName: 'Ahorcado'
+    projectKey: 'dotnet-framework-on-azdo'
+    projectName: 'Sample .NET Framework project with Azure DevOps'
+
+
+- task: VSBuild@1
+  displayName: 'Build solution **\*.sln'
+  inputs:
+    solution: '**\*.sln'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+
+- task: VSTest@2
+  displayName: 'VsTest - testAssemblies'
+  inputs:
+    testAssemblyVer2: |
+     **\$(BuildConfiguration)\*Test*.dll
+     !**\obj\**
+    codeCoverageEnabled: true
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
 
 - task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud analysis'
+
 - task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
+  displayName: 'Publish results on build summary'
