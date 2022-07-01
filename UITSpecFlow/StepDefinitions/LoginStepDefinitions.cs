@@ -18,7 +18,7 @@ namespace UITSpecFlow.StepDefinitions
         {
             driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").Setup();
             driver.Url = "https://ahorcadoagiles.azurewebsites.net/";
-            Thread.Sleep(4000);
+            Thread.Sleep(4500);
         }
 
         [Given(@"I have entered hangman as my user name")]
