@@ -34,10 +34,13 @@ steps:
     projectKey: 'tmalgarin_Ahorcado'
     projectName: 'Ahorcado'
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '**\*.sln'
-    msbuildArchitecture: 'x64'
+    command: 'restore'
+    feedsToUse: 'select'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
 
 - task: DotNetCoreCLI@2
   inputs:
