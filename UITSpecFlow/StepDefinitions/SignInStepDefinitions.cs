@@ -12,7 +12,6 @@ namespace UITSpecFlow.StepDefinitions
     {
         IWebDriver driver;
         private readonly ScenarioContext _scenarioContext;
-        private readonly Usuario _usuario = new Usuario(); 
 
         public SignInStepDefinitions(ScenarioContext scenarioContext) => _scenarioContext = scenarioContext;
 
@@ -20,7 +19,7 @@ namespace UITSpecFlow.StepDefinitions
         public void GivenINavigateToAhorcadoWebApp()
         {
             driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").Setup();
-            driver.Url = "https://localhost:7025/";
+            driver.Url = "https://ahorcadoagiles.azurewebsites.net/";
             Thread.Sleep(4000);
         }
 
