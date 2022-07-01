@@ -26,7 +26,8 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '**/Ahorcado.csproj'
+    projects: |
+      **/UT.csproj
 
 - task: VSTest@2
   inputs:
