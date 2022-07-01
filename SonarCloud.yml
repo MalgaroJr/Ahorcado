@@ -32,17 +32,18 @@ steps:
     projectKey: 'tmalgarin_Ahorcado'
     projectName: 'Ahorcado'
 
-- task: DotNetCoreCLI@2
+- task: VSBuild@1
   inputs:
-    command: 'build'
+    solution: '**\*.sln'
 
-- task: DotNetCoreCLI@2
+- task: VSTest@2
   inputs:
-    command: 'test'
-    projects: |
-      /UITSpecFlow.csproj
-      /UT.csproj
-
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
   inputs:
