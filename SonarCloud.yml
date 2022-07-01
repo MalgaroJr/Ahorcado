@@ -39,6 +39,13 @@ steps:
     solution: '**\*.sln'
     msbuildArchitecture: 'x64'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: |
+      /UITSpecFlow.csproj
+      /UT.csproj
+
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
   inputs:
