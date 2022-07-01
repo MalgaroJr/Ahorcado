@@ -36,14 +36,20 @@ steps:
   inputs:
     solution: '**\*.sln'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: '**/Ahorcado.csproj'
+
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\*test*.dll
+      **\UITSpecFlow.dll
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
+
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
   inputs:
