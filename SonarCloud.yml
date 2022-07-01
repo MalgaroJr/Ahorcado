@@ -12,11 +12,9 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  buildPlatform: 'any cpu'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-
 - task: NuGetToolInstaller@1
   inputs:
     versionSpec: 
@@ -34,10 +32,6 @@ steps:
     projectKey: 'tmalgarin_Ahorcado'
     projectName: 'Ahorcado'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
