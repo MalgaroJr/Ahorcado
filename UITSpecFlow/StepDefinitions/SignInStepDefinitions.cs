@@ -19,7 +19,7 @@ namespace UITSpecFlow.StepDefinitions
         public void GivenINavigateToAhorcadoWebApp()
         {
             driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").Setup();
-            driver.Url = "https://ahorcadoagiles.azurewebsites.net/";
+            driver.Url = "https://localhost:7025";
             Thread.Sleep(4500);
         }
 

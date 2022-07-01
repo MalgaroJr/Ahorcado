@@ -1,5 +1,6 @@
 ﻿@page "/"
 @layout InitLayout
+@inject NavigationManager navegar
 <PageTitle>Iniciar Sesion</PageTitle>
 
 <main class="text-center mt-5 mx-auto" style="max-width: 330px;">
@@ -17,7 +18,7 @@
             <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña" @bind="contra"/>
             <label for="password">Contraseña</label>
         </div>
-        <NavLink name="login" class="btn btn-primary btn-lg w-100 mt-5" href="home" @onclick="Ingresar">Login</NavLink>
+        <button name="login" class="btn btn-primary btn-lg w-100 mt-5" @onclick="Ingresar">Login</button>
         <NavLink name="registrar" class="btn btn-success btn-lg w-100 mt-3" href="registrarse">Registrarse</NavLink>
     </div>
     <p class="h6" name="notificacion">@msg</p>
@@ -28,14 +29,14 @@
     private string contra="";
     private string msg="";
 
-    void Ingresar(){
+    async void Ingresar(){
         if(usr.Equals("hangman"))
         {
             if(contra.Equals("12345"))
             {
                 msg = "Correcto";
-                Thread.Sleep(500);
-
+                await Task.Delay(500);
+                navegar.NavigateTo("/home");
             }
             else
             {
