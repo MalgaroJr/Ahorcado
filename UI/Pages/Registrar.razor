@@ -1,5 +1,13 @@
 ﻿@page "/registrarse"
 @layout InitLayout
+@inherits OutBase
+@using System.Text.Json
+@using System.Text.Json.Serialization;
+@using ClasesAhorcado;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@inject NavigationManager navegar
 <PageTitle>Registrarse</PageTitle>
 
 <main class="text-center mt-5 mx-auto" style="max-width: 330px;">
@@ -41,7 +49,7 @@
     private string contra2="";
     private string msg="";
 
-    void Verificar()
+    public async void Verificar()
     {
         if (contraR.Equals(contra2))
         {
@@ -52,11 +60,21 @@
             else
             {
                 msg = "Creando usuario...";
+                await Post();
+                await Task.Delay(500);
+                msg = "usuario creado"; ///chequear status code que devuelve y en base a eso continuar**
+                navegar.NavigateTo("/home");
             }
         }
         else
         {
             msg = "Las contraseñas no coinciden";
         }
+    }
+
+    public async Task Post()
+    {
+        Usuario u = new Usuario(name, contraR) { Username = user };
+        this.UserService.New(u);
     }
 }
