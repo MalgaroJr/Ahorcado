@@ -31,8 +31,9 @@ namespace API.Controllers
         [HttpGet("{username}")]
         public string Get(string username)
         {
-            DatosUsuario du = new DatosUsuario();
-            var u=du.get(username);
+            DatosUsuario du = new DatosUsuario(); //para produccion
+            var u=du.get(username); //para produccion
+            //Usuario u=new Usuario { Username=username }; //para testear
             var o=JsonConvert.SerializeObject(u);
             return o;
         }
@@ -41,9 +42,20 @@ namespace API.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            var usr= JsonConvert.DeserializeObject<Usuario>(value);
-            DatosUsuario du = new DatosUsuario();
-            du.Registrar(usr);
+            try
+            {
+                var usr = JsonConvert.DeserializeObject<Usuario>(value);
+                DatosUsuario du = new DatosUsuario();
+                du.Registrar(usr);
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Contains("Error al registrar"))
+                {
+                    throw new Exception("No fue posible registrar al usuario: es posible que el nombre de usuario ingresado este en uso");
+                }
+                throw new Exception("Error del servidor, intente mas tarde");
+            }
         }
 
         // PUT api/<UsersController>/5

@@ -10,25 +10,32 @@ namespace UI.Repository
         public UserService(HttpClient httpClient)
         {
             HttpClient = httpClient;
+            //HttpClient.DefaultRequestHeaders.Add("Hanged-Site", "C# Program");
+            //HttpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public HttpClient HttpClient { get; }
 
         public async Task<Usuario> GetUsuarioByUsername(string username)
         {
-            Usuario u;
+            Usuario u=null;
             try
             {
-                var usuario = await this.HttpClient.GetStringAsync($"api/Users/{username}");
-                if(usuario == null)
+                var response = await this.HttpClient.GetAsync($"https://localhost:7290/api/Users/{username}");
+                if(response.IsSuccessStatusCode)
                 {
-                    throw new ArgumentNullException("username");
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        throw new ArgumentNullException("username");
+                    }
+                    var usuario=response.Content.ReadAsStringAsync().Result;
+                    u = JsonConvert.DeserializeObject<Usuario>(usuario);
                 }
-                u = JsonConvert.DeserializeObject<Usuario>(usuario);
+                //u = usuario;
             }
-            catch (ArgumentNullException e)
+            catch (Exception e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
             return u;
         }
@@ -43,11 +50,7 @@ namespace UI.Repository
             string json = JsonConvert.SerializeObject(u);
             //StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             //var response= await this.HttpClient.PostAsync("api/Users", httpContent);
-            var response = await this.HttpClient.PostAsJsonAsync<string>("api/Users", json);
-            if (!response.StatusCode.Equals(200))
-            {
-                throw new Exception();
-            }
+            await this.HttpClient.PostAsJsonAsync<string>("https://localhost:7290/api/Users", json);
         }
     }
 }

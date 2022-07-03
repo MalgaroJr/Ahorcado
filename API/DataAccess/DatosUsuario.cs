@@ -61,25 +61,36 @@ namespace API.DataAccess
 
         public void Registrar(Usuario u)
         {
+            int n=0;
+            SqlTransaction transaction;
+            Inicializar();
+            transaction = conn.BeginTransaction();
             try
             {
-                Inicializar();
                 SqlCommand cmd = new SqlCommand("INSERT INTO[dbo].[Usuarios] ([nombre] ,[username] ,[password],"+
                 "[fecha_creacion]) VALUES (@nombre, @username, @password, @fecha_creacion)", conn);
+                cmd.Transaction = transaction;
                 cmd.Parameters.AddWithValue("@username", u.Username);
                 cmd.Parameters.AddWithValue("@nombre", u.Name);
                 cmd.Parameters.AddWithValue("@password", u.Password);
                 cmd.Parameters.AddWithValue("@fecha_creacion", DateTime.Now);
-                int n=cmd.ExecuteNonQuery();
-                Cerrar();
-                if (n == 0)
-                {
-                    throw new Exception("No se modifico ningun registro");
-                }
+                n=cmd.ExecuteNonQuery();
+                transaction.Commit();
             }
             catch (Exception e)
             {
+                try
+                {
+                    transaction.Rollback();
+                    Cerrar();
+                }
+                catch(Exception) { }
                 throw new Exception("Error al registrar el usuario: " + e.Message);
+            }
+            Cerrar();
+            if (n == 0)
+            {
+                throw new Exception("No se modifico ningun registro");
             }
         }
 

@@ -43,7 +43,7 @@ namespace UITSpecFlow.StepDefinitions
         public void ThenIShouldBeLoggedIn()
         {
             string result = driver.FindElement(By.Name("notificacion")).Text;
-            Assert.IsTrue(result.Equals("Correcto"));
+            Assert.IsTrue(result.Equals("Ingresando, por favor espere..."));
 
         }
     }
