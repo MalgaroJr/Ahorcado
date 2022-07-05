@@ -8,6 +8,8 @@
 @using System.Net.Http.Json;
 @inject HttpClient Http
 @inject NavigationManager navegar
+@inject AuthenticationStateProvider _authStateProvider
+@inject ILocalStorageService _localStorageService;
 <PageTitle>Registrarse</PageTitle>
 
 <main class="text-center mt-5 mx-auto" style="max-width: 330px;">
@@ -62,6 +64,8 @@
                 if(await this.Login(user, contra))
                 {
                     msg = "Usuario creado";
+                    await _localStorageService.SetItemAsStringAsync("isauthenticated", "true");
+                    await _localStorageService.SetItemAsStringAsync("username", user);
                     navegar.NavigateTo("/home");
                 }
                 else

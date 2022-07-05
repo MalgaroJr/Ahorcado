@@ -7,18 +7,13 @@ namespace API.DataAccess
 {
     public class Conector
     {
-        protected string sqlstr;
+        protected static string CONNECTION_STRING=GetConfiguration();
 
         protected SqlConnection conn;
 
-        public Conector()
-        {
-            var config=GetConfiguration();
-            sqlstr = config;
-            //sqlstr = "";
-        }
+        public Conector() { }
 
-        protected string GetConfiguration()
+        protected static string GetConfiguration()
         {
 
             SecretClientOptions options = new SecretClientOptions()
@@ -41,7 +36,7 @@ namespace API.DataAccess
 
         protected void Inicializar()
         {
-            conn = new SqlConnection(sqlstr);
+            conn = new SqlConnection(CONNECTION_STRING);
             try
             {
                 conn.Open();
@@ -57,6 +52,7 @@ namespace API.DataAccess
             try
             {
                 conn.Close();
+                conn.Dispose();
             }
             catch (SqlException e)
             {

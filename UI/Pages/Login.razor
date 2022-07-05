@@ -2,6 +2,8 @@
 @layout InitLayout
 @inherits OutBase
 @inject NavigationManager navegar
+@inject AuthenticationStateProvider _authStateProvider
+@inject ILocalStorageService _localStorageService;
 <PageTitle>Iniciar Sesion</PageTitle>
 
 <main class="text-center mt-5 mx-auto" style="max-width: 330px;">
@@ -31,6 +33,8 @@
         if(await this.Login(user, contra))
         {
             msg = "Ingresando, por favor espere...";
+            await _localStorageService.SetItemAsStringAsync("isauthenticated", "true");
+            await _localStorageService.SetItemAsStringAsync("username", user);
             await Task.Delay(500);
             navegar.NavigateTo("/home");
         }

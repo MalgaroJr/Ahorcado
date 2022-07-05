@@ -1,5 +1,7 @@
 ﻿@page "/Ahorcado"
 @using ClasesAhorcado
+@inject NavigationManager navegar
+@inject ILocalStorageService _localStorageService;
 
 <PageTitle>Ahorcado</PageTitle>
 <style>
@@ -96,5 +98,17 @@
             palabra2 = "";
         }
         intento = "";
+    }
+
+    protected string yourName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        yourName = await _localStorageService.GetItemAsStringAsync("username");
+        if (string.IsNullOrEmpty(yourName))
+        {
+            navegar.NavigateTo("/");
+        }
     }
 }

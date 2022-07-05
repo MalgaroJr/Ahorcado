@@ -21,7 +21,7 @@ namespace UI.Repository
             Usuario u=null;
             try
             {
-                var response = await this.HttpClient.GetAsync($"https://localhost:7290/api/Users/{username}");
+                var response = await this.HttpClient.GetAsync($"https://localhost:7092/api/Users/{username}");
                 if(response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -31,7 +31,6 @@ namespace UI.Repository
                     var usuario=response.Content.ReadAsStringAsync().Result;
                     u = JsonConvert.DeserializeObject<Usuario>(usuario);
                 }
-                //u = usuario;
             }
             catch (Exception e)
             {
@@ -50,7 +49,7 @@ namespace UI.Repository
             string json = JsonConvert.SerializeObject(u);
             //StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             //var response= await this.HttpClient.PostAsync("api/Users", httpContent);
-            await this.HttpClient.PostAsJsonAsync<string>("https://localhost:7290/api/Users", json);
+            await this.HttpClient.PostAsJsonAsync<string>("https://localhost:7092/api/Users", json);
         }
     }
 }
