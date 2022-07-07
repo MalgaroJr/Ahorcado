@@ -1,0 +1,42 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  name: Default    # your job runs on an agent in this pool
+  demands: agent.os -equals Windows_NT    # the agent must have this capability to run the job
+
+variables:
+  buildConfiguration: 'Release'
+  buildPlatform: 'any cpu'
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SC service'
+    organization: 'tmalgarin'
+    scannerMode: 'MSBuild'
+    projectKey: 'tmalgarin_Ahorcado'
+    projectName: 'Ahorcado'
+
+- task: VSBuild@1
+  inputs:
+    solution: '**\*.sln'
+
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
