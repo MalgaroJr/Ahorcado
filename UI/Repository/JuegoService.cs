@@ -16,7 +16,7 @@ namespace UI.Repository
 
         public async Task<IEnumerable<Juego>> GetAllJuegosAsync(string username)
         {
-            Juego[] juegos = null;
+            List<Juego> juegos = null;
             try
             {
                 string url = this.HttpClient.BaseAddress.ToString() + $"api/Juegos/{username}";
@@ -28,7 +28,7 @@ namespace UI.Repository
                         throw new ArgumentNullException("No se recuperaron los juegos");
                     }
                     var results= response.Content.ReadAsStringAsync().Result;
-                    juegos=JsonConvert.DeserializeObject<Juego[]>(results);
+                    juegos= JsonConvert.DeserializeObject<List<Juego>>(results);
                 }
                 if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
                 {

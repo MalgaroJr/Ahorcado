@@ -14,17 +14,21 @@ namespace API.Controllers
     {
         // GET: api/<JuegosController>/<user>
         [HttpGet("{user}")]
-        public IEnumerable<string> Get(string user)
+        public string Get(string user)
         {
             DatosJuegos dj = new DatosJuegos();
             List<Juego> juegoList = dj.All(user);
-            List<string> result = new List<string>();
+            /*List<string> result = new List<string>();
             foreach (Juego juego in juegoList)
             {
                 string o=JsonConvert.SerializeObject(juego);
                 result.Add(o);
             }
-            return result.ToArray();
+            return result.ToArray();*/
+            //IEnumerable<string>
+            string json = JsonConvert.SerializeObject(juegoList);
+            return json;
+
         }
 
         // POST api/<JuegosController>

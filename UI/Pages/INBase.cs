@@ -20,5 +20,21 @@ namespace UI.Pages
                 msg= e.Message;
             }
         }
+
+        public async Task<List<Juego>> RecuperarJuegos(string username)
+        {
+            List<Juego> juegos = new List<Juego>();
+            try
+            {
+                var js = await JuegoService.GetAllJuegosAsync(username);
+                juegos.AddRange(js);
+            }
+            catch (Exception e)
+            {
+                msg = "No es posible mostrar las estadisticas en este momento:"+e.Message;
+                return null;
+            }
+            return juegos;
+        }
     }
 }

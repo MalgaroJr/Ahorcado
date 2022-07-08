@@ -1,0 +1,114 @@
+﻿@page "/Estadisticas"
+@inherits INBase
+@using ClasesAhorcado
+@using System.Linq
+@inject NavigationManager navegar
+@inject IJSRuntime JS
+@inject ILocalStorageService _localStorageService;
+
+<PageTitle>Estadisticas</PageTitle>
+
+<div class="container mt-auto text-center">
+    <p class="h6">@msg</p>
+    <div class="col-sm-auto">
+            <p class="h3">Cant. de vidas al final de la partida</p>
+            <!--svg id="graficavidas" style="width:100%;max-width:700px" viewBox="0 0 20 20"></svg-->
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>0 vidas</td>
+                        <td>@cantv[0]</td>
+                    </tr>
+                    <tr>
+                        <td>1 vidas</td>
+                        <td>@cantv[1]</td>
+                    </tr>
+                    <tr>
+                        <td>2 vidas</td>
+                        <td>@cantv[2]</td>
+                    </tr>
+                    <tr>
+                        <td>3 vidas</td>
+                        <td>@cantv[3]</td>
+                    </tr>
+                    <tr>
+                        <td>4 vidas</td>
+                        <td>@cantv[4]</td>
+                    </tr>
+                    <tr>
+                        <td>5 vidas</td>
+                        <td>@cantv[5]</td>
+                    </tr>
+                    <tr>
+                        <td>6 vidas</td>
+                        <td>@cantv[6]</td>
+                    </tr>
+                    <tr>
+                        <td>7 vidas</td>
+                        <td>@cantv[7]</td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    <div class="col-sm-auto"
+            <p class="h3">Victorias/Derrotas</p>
+            <!--svg id="graficavd" style="width:100%;max-width:700px" viewBox="0 0 20 20"></svg-->
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Victorias</td>
+                        <td>@ratio[0]</td>
+                    </tr>
+                    <tr>
+                        <td>Derrotas</td>
+                        <td>@ratio[1]</td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+</div>
+@code {
+    protected string yourName;
+    protected int[] cantv;
+    protected int[] ratio;
+
+    protected async Task Graphs()
+    {
+        List<Juego> juegos = null;
+        try
+        {
+            juegos = await this.RecuperarJuegos(yourName);
+        }
+        catch (Exception)
+        {
+            return;
+        }
+
+        var ganados = (from Juego j in juegos where j.ResultadoFinal != Resultados.Perdiste select j).Count();
+        var perdidos = (from Juego j in juegos where j.ResultadoFinal == Resultados.Perdiste select j).Count();
+        cantv = new int[8];
+        ratio =new int[2]{ganados,perdidos};
+        for(int i=0; i <= 7; i++)
+        {
+            int c = (from Juego j in juegos where j.vidas == i select j).Count();
+            cantv[i] = c;
+        }
+        //llamar metodos de graficas de js
+        int total = juegos.Count;
+        //await JS.InvokeVoidAsync("grafica", "graficavd", ratio, total);
+        //await JS.InvokeVoidAsync("grafica", "graficavidas", cantv, total);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        yourName = await _localStorageService.GetItemAsStringAsync("username");
+        if (string.IsNullOrEmpty(yourName))
+        {
+            navegar.NavigateTo("/");
+            return;
+        }
+        await Graphs();
+    }
+
+}
