@@ -1,4 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using API.DataAccess;
+using ClasesAhorcado;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,24 +12,37 @@ namespace API.Controllers
     [ApiController]
     public class JuegosController : ControllerBase
     {
-        // GET: api/<JuegosController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        // GET: api/<JuegosController>/<user>
+        [HttpGet("{user}")]
+        public IEnumerable<string> Get(string user)
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<JuegosController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            DatosJuegos dj = new DatosJuegos();
+            List<Juego> juegoList = dj.All(user);
+            List<string> result = new List<string>();
+            foreach (Juego juego in juegoList)
+            {
+                string o=JsonConvert.SerializeObject(juego);
+                result.Add(o);
+            }
+            return result.ToArray();
         }
 
         // POST api/<JuegosController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            try
+            {
+                var usr = JsonConvert.DeserializeObject<Usuario>(value);
+                DatosJuegos dj = new DatosJuegos();
+                dj.Nuevo(usr.Juegos.Last(), usr.Username);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception("No fue posible registrar el juego->"+e.Message);
+            }
+            
         }
 
         // PUT api/<JuegosController>/5

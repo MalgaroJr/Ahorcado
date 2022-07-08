@@ -2,6 +2,8 @@ using Microsoft.Net.Http.Headers;
 using Azure.Identity;
 using Microsoft.AspNetCore.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
+using API.Errors;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,24 +52,20 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
     {
         exceptionHandlerApp.Run(async context =>
         {
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.StatusCode = 500; // or another Status accordingly to Exception Type
+            context.Response.ContentType = "application/json";
 
-            // using static System.Net.Mime.MediaTypeNames;
-            context.Response.ContentType = Text.Plain;
-
-            await context.Response.WriteAsync("An exception was thrown.");
-
-            var exceptionHandlerPathFeature =
-                context.Features.Get<IExceptionHandlerPathFeature>();
-
-            if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
+            var error = context.Features.Get<IExceptionHandlerFeature>();
+            if (error != null)
             {
-                await context.Response.WriteAsync(" The file was not found.");
-            }
+                var ex = error.Error;
 
-            if (exceptionHandlerPathFeature?.Path == "/")
-            {
-                await context.Response.WriteAsync(" Page: Home.");
+                await context.Response.WriteAsync(new ErrorDto()
+                {
+                    Code = 500,
+                    Message = ex.Message // or your custom message
+                                         // other custom data
+                }.ToString(), Encoding.UTF8);
             }
         });
     });

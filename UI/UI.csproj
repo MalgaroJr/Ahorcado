@@ -34,4 +34,8 @@
     <UpToDateCheckInput Remove="Shared\InitLayout.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Hanged.js" />
+  </ItemGroup>
+
 </Project>

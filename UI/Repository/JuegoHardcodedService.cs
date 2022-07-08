@@ -5,9 +5,12 @@ namespace UI.Repository
 {
     public class JuegoHardcodedService : IJuegoService
     {
-        public Task<IEnumerable<Juego>> GetAllJuegosAsync()
+        public async Task<IEnumerable<Juego>> GetAllJuegosAsync(string username)
         {
-            throw new NotImplementedException();
+            var usuario = from Usuario us in UserHardcodedService.Usuarios where us.Username == username select us;
+            Usuario u= usuario.FirstOrDefault();
+            List<Juego> list = u.Juegos;
+            return list;
         }
 
         public Task<Juego> GetJuegoByIdAsync(int id)
@@ -20,9 +23,18 @@ namespace UI.Repository
             throw new NotImplementedException();
         }
 
-        public Task RegistrarJuego(Juego juego)
+        public async Task RegistrarJuego(Usuario u)
         {
-            throw new NotImplementedException();
+            foreach(Usuario usuario in UserHardcodedService.Usuarios)
+            {
+                if (usuario.Username == u.Username)
+                {
+                    usuario.Juegos.Add(u.Juegos.Last());
+                    break;
+                }
+            }
+            await Task.Delay(10);
+            return;
         }
     }
 }

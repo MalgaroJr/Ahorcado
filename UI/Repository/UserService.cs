@@ -21,7 +21,8 @@ namespace UI.Repository
             Usuario u=null;
             try
             {
-                var response = await this.HttpClient.GetAsync($"https://localhost:7092/api/Users/{username}");
+                string url = this.HttpClient.BaseAddress.ToString() + $"api/Users/{username}";
+                var response = await this.HttpClient.GetAsync(url);
                 if(response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -30,6 +31,12 @@ namespace UI.Repository
                     }
                     var usuario=response.Content.ReadAsStringAsync().Result;
                     u = JsonConvert.DeserializeObject<Usuario>(usuario);
+                }
+                if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    var result = response.Content.ReadAsStringAsync().Result;
+                    string errormsg = JsonConvert.DeserializeObject<string>(result);
+                    throw new Exception(errormsg);
                 }
             }
             catch (Exception e)
@@ -49,7 +56,14 @@ namespace UI.Repository
             string json = JsonConvert.SerializeObject(u);
             //StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             //var response= await this.HttpClient.PostAsync("api/Users", httpContent);
-            await this.HttpClient.PostAsJsonAsync<string>("https://localhost:7092/api/Users", json);
+            string url = this.HttpClient.BaseAddress.ToString() + "api/Users";
+            var response=await this.HttpClient.PostAsJsonAsync<string>(url, json);
+            if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                string errormsg = JsonConvert.DeserializeObject<string>(result);
+                throw new Exception(errormsg);
+            }
         }
     }
 }

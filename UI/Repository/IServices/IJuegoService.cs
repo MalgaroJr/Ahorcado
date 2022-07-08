@@ -6,10 +6,10 @@ namespace UI.Repository.IServices
     {
         Task<IEnumerable<Juego>> GetJuegosAsync();
 
-        Task<IEnumerable<Juego>> GetAllJuegosAsync();
+        Task<IEnumerable<Juego>> GetAllJuegosAsync(string username);
 
         Task<Juego> GetJuegoByIdAsync(int id);
 
-        Task RegistrarJuego(Juego juego);
+        Task RegistrarJuego(Usuario u);
     }
 }
