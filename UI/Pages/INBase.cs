@@ -9,6 +9,10 @@ namespace UI.Pages
         [Inject]
         public IJuegoService JuegoService { get; set; }
         protected string msg = "";
+        protected int total;
+        protected int[] cantv;
+        protected int[] ratio;
+
         public async Task RegistrarJuego(Usuario us)
         {
             try
@@ -36,5 +40,20 @@ namespace UI.Pages
             }
             return juegos;
         }
+
+        public INBase():base()
+        {
+            total = 1;
+            cantv = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+            ratio = new int[] { 0, 1 };
+        }
+        protected override async Task OnInitializedAsync()
+        {
+            base.OnInitializedAsync();
+            total = 1;
+            cantv = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+            ratio = new int[] { 0, 1 };
+        }
+
     }
 }

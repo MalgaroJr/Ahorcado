@@ -31,6 +31,7 @@ namespace UI.Repository
         public async Task New(Usuario u)
         {
             u.fechaCreacion = DateTime.Now;
+            u.Juegos = new List<Juego>();
             Usuarios.Add(u);
         }
     }

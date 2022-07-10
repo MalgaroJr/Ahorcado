@@ -8,69 +8,101 @@
 
 <PageTitle>Estadisticas</PageTitle>
 
-<div class="container mt-auto text-center">
+<style>
+    #my-pie-chart-container {
+  display: flex;
+  align-items: center;
+}
+
+#my-pie-chart {
+    background: conic-gradient(maroon @(porcentajes[0])%, firebrick @(porcentajes[0])% @(porcentajes[1])%,
+    coral @(porcentajes[1])% @(porcentajes[2])%, goldenrod @(porcentajes[2])% @(porcentajes[3])%,
+    lightgreen @(porcentajes[3])% @(porcentajes[4])%, forestgreen @(porcentajes[4])% @(porcentajes[5])%,
+    green @(porcentajes[5])% @(porcentajes[6])%, darkgreen @(porcentajes[6])%);
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+}
+
+
+
+#legenda {
+  margin-left: 20px;
+  background-color: white;
+  padding: 5px;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+}
+
+.entry-color {
+    height: 10px;
+    width: 10px;
+}
+
+.entry-text {
+  margin-left: 5px;
+}
+@foreach(string color in colors)
+{
+@($"#color-{color} {{background-color: {color};}}")
+}
+
+</style>
+
+<div class="container mt-auto">
     <p class="h6">@msg</p>
     <div class="col-sm-auto">
-            <p class="h3">Cant. de vidas al final de la partida</p>
+            <p class="h3 text-center">Cant. de vidas al final de la partida</p>
             <!--svg id="graficavidas" style="width:100%;max-width:700px" viewBox="0 0 20 20"></svg-->
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <td>0 vidas</td>
-                        <td>@cantv[0]</td>
-                    </tr>
-                    <tr>
-                        <td>1 vidas</td>
-                        <td>@cantv[1]</td>
-                    </tr>
-                    <tr>
-                        <td>2 vidas</td>
-                        <td>@cantv[2]</td>
-                    </tr>
-                    <tr>
-                        <td>3 vidas</td>
-                        <td>@cantv[3]</td>
-                    </tr>
-                    <tr>
-                        <td>4 vidas</td>
-                        <td>@cantv[4]</td>
-                    </tr>
-                    <tr>
-                        <td>5 vidas</td>
-                        <td>@cantv[5]</td>
-                    </tr>
-                    <tr>
-                        <td>6 vidas</td>
-                        <td>@cantv[6]</td>
-                    </tr>
-                    <tr>
-                        <td>7 vidas</td>
-                        <td>@cantv[7]</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="my-pie-chart-container">
+              <div id="my-pie-chart"></div>
+
+              <div id="legenda">
+                @for(int i=0; i<8;i++)
+                {
+                <div class="entry">
+                  <div id=@($"color-{colors[i]}") class="entry-color"></div>
+                  <div class="entry-text">@i vidas: @($"{cantv[i]}") </div>
+                </div>
+                }
+              </div>
+            </div>
     </div>
-    <div class="col-sm-auto"
-            <p class="h3">Victorias/Derrotas</p>
+    <div class="col-sm-auto">
+            <p class="h3 text-center">Victorias/Derrotas</p>
             <!--svg id="graficavd" style="width:100%;max-width:700px" viewBox="0 0 20 20"></svg-->
             <table class="table table-striped">
                 <tbody>
                     <tr>
                         <td>Victorias</td>
-                        <td>@ratio[0]</td>
+                        <td> @victorias</td>
                     </tr>
                     <tr>
                         <td>Derrotas</td>
-                        <td>@ratio[1]</td>
+                        <td> @derrotas</td>
                     </tr>
                 </tbody>
             </table>
+            <svg height="200" width="200" viewBox="0 0 20 20">
+              <circle r="10" cx="10" cy="10" fill="green" />
+              <circle r="5" cx="10" cy="10" fill="transparent"
+                      stroke="red"
+                      stroke-width="10"
+                      stroke-dasharray="calc(@(derrotas*100/total) * 31.4 / 100) 31.4"
+                      transform="rotate(-90) translate(-20)" />
+            </svg>
     </div>
 </div>
+
 @code {
     protected string yourName;
-    protected int[] cantv;
-    protected int[] ratio;
+    protected int[] cantv=new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+    protected float[] porcentajes=new float[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+    protected int victorias=0, derrotas=0, total=1;
+    protected string[] colors = new string[] { "maroon", "firebrick", "coral", "goldenrod", "lightgreen","forestgreen","green", "darkgreen"};
 
     protected async Task Graphs()
     {
@@ -78,25 +110,35 @@
         try
         {
             juegos = await this.RecuperarJuegos(yourName);
+            if (juegos.Count() == 0)
+            {
+                throw new Exception();
+            }
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            juegos = new List<Juego>();
+            msg = "Aun no tines juegos registrados!";
             return;
         }
-
-        var ganados = (from Juego j in juegos where j.ResultadoFinal != Resultados.Perdiste select j).Count();
-        var perdidos = (from Juego j in juegos where j.ResultadoFinal == Resultados.Perdiste select j).Count();
+        total = juegos.Count;
+        if (total != 0)
+        {
+            msg = "";
+        }
+        else
+        {
+            total = 1;
+        }
+        victorias = (from Juego j in juegos where j.ResultadoFinal != Resultados.Perdiste select j).Count();
+        derrotas = (from Juego j in juegos where j.ResultadoFinal == Resultados.Perdiste select j).Count();
         cantv = new int[8];
-        ratio =new int[2]{ganados,perdidos};
         for(int i=0; i <= 7; i++)
         {
             int c = (from Juego j in juegos where j.vidas == i select j).Count();
             cantv[i] = c;
+            porcentajes[i] = cantv[..].Sum() * 100 / total;
         }
-        //llamar metodos de graficas de js
-        int total = juegos.Count;
-        //await JS.InvokeVoidAsync("grafica", "graficavd", ratio, total);
-        //await JS.InvokeVoidAsync("grafica", "graficavidas", cantv, total);
     }
 
     protected override async Task OnInitializedAsync()
@@ -105,10 +147,9 @@
         yourName = await _localStorageService.GetItemAsStringAsync("username");
         if (string.IsNullOrEmpty(yourName))
         {
+            await _localStorageService.ClearAsync();
             navegar.NavigateTo("/");
-            return;
         }
         await Graphs();
-    }
-
+    } 
 }

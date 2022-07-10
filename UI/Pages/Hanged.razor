@@ -27,13 +27,15 @@
             </div>
         </div>
         <div class="row" id="areajuego" hidden="hidden">
-            <div class="col-3">
-                <label>Ingrese letra o palabra</label>
-                <input type="text" class="form-control" name="letra" @bind="intento"/>
-            </div>
-            <div class="col-1">
-                <br />
-                <button type="button" class="btn btn-success" @onclick="@(async ()=>await probar())">Probar</button>
+            <div class="input-groupl">
+                <div class="col-3">
+                    <label>Ingrese letra</label>
+                    <input type="text" class="form-control" name="letra" @bind="intento" required="required"/>
+                </div>
+                <div class="col-1">
+                    <br />
+                    <button class="btn btn-primary" type="submit" @onclick="@(async ()=>await probar())">Probar</button>
+                </div>
             </div>
             <div class="col">
                 <label>Letras usadas</label>
@@ -65,7 +67,7 @@
     <div class="row" id="areareset" hidden="hidden">
         <p class="h5">@msg</p>
         <div class="text-lg-end">
-            <button class="btn btn-success" @onclick="@(()=>navegar.NavigateTo("/Ahorcado"))">Jugar de nuevo</button>
+            <button class="btn btn-success" @onclick="@(()=>{navegar.NavigateTo("/home");navegar.NavigateTo("/Ahorcado");})">Jugar de nuevo</button>
         </div>
     </div>
 </body>
@@ -95,7 +97,17 @@
     }
     private async Task probar()
     {
-        char i = intento[0];
+        char i;
+        try
+        {
+            i = intento[0];
+        }
+        catch (Exception)
+        {
+
+            return;
+        }     
+
         Resultados r = u.Ingresar(i);
         palabraAdivina = u.getEstado();
         letras = u.getLetras();
