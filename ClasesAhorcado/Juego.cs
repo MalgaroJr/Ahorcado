@@ -41,13 +41,13 @@
         public bool LeerLetra(char input)
         {
             input = char.ToLower(input);
-            if (letrasUsadas.Contains(input))
+            if (LetrasUsadas.Contains(input))
             {
                 return false;
             }
             else
             {
-                letrasUsadas += input;
+                LetrasUsadas += input;
                 return true;
             }
         }

@@ -52,7 +52,7 @@ namespace API.DataAccess
                 SqlCommand sql = new SqlCommand(s, conn);
                 sql.Transaction = tran;
                 sql.Parameters.AddWithValue("@palabra", j.Palabra);
-                sql.Parameters.AddWithValue("@letrasu", j.letrasUsadas);
+                sql.Parameters.AddWithValue("@letrasu", j.LetrasUsadas);
                 sql.Parameters.AddWithValue("@jugador",username);
                 n= sql.ExecuteNonQuery();
                 tran.Commit();
