@@ -2,7 +2,8 @@
 {
     public class Juego
     {
-        public string letrasUsadas = "";
+        private string letrasUsadas = "";
+        public string LetrasUsadas { get; set; }
         public string Palabra{get; set;}
         public int vidas { get; set;}
         private Resultados resultadoFinal;
@@ -22,7 +23,7 @@
             } 
             set
             {
-                resultadoFinal=ResultadoFinal;
+                resultadoFinal=value;
             }}
         public char[] estado { get; set; }
 
@@ -40,13 +41,13 @@
         public bool LeerLetra(char input)
         {
             input = char.ToLower(input);
-            if (letrasUsadas.Contains(input))
+            if (LetrasUsadas.Contains(input))
             {
                 return false;
             }
             else
             {
-                letrasUsadas += input;
+                LetrasUsadas += input;
                 return true;
             }
         }
@@ -60,24 +61,20 @@
         }
         public Resultados verificar(char input)
         {
-            input = char.ToLower(input);
-            
+            input = char.ToLower(input);            
 
             if (verificarVidas())
             {
-                if (LeerLetra(input))
+                if (LeerLetra(input) && Palabra.Contains(input))
                 {
-                    if (Palabra.Contains(input))
+                    fillEstado(input);
+                    string a = new string(estado);
+                    if (Palabra.Equals(a))
                     {
-                        fillEstado(input);
-                        string a = new string(estado);
-                        if (Palabra.Equals(a))
-                        {
-                            resultadoFinal = Resultados.Ganaste;
-                            return Resultados.Ganaste;
-                        }
-                        return Resultados.Acierto;
+                        resultadoFinal = Resultados.Ganaste;
+                        return Resultados.Ganaste;
                     }
+                    return Resultados.Acierto; 
                 }
                 vidas -= 1;
                 return Resultados.Error;
@@ -90,7 +87,7 @@
         {
             for (int i = 0; i < estado.Length; i++)
             {
-                if(Palabra.ToCharArray()[i] == input) 
+                if(Palabra[i] == input) 
                 {
                     estado[i] = input;
                 }

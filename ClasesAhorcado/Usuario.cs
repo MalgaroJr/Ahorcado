@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,22 +61,23 @@ namespace ClasesAhorcado
         public string getEstado()
         {
             Juego j = Juegos.Last();
-            string est = "";
+            StringBuilder est = new StringBuilder();
             for (int i = 0; i < j.estado.Length; i++)
             {
-                est += j.estado[i] + " ";
+                est.Append(j.estado[i] + " ");
             }
-            return est;
+            return est.ToString();
         }
         public string getLetras()
         {
             Juego j = Juegos.Last();
-            string letras = "";
-            for (int i = 0; i < j.letrasUsadas.Length; i++)
+
+            StringBuilder letras = new StringBuilder();
+            for (int i = 0; i < j.LetrasUsadas.Length; i++)
             {
-                letras += j.letrasUsadas[i] + " - ";
+                letras.Append((j.LetrasUsadas[i] + " - "));
             }
-            return letras;
+            return letras.ToString();
         }
         public int getVidas()
         {

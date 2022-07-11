@@ -7,7 +7,8 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  name: Default    # your job runs on an agent in this pool
+  demands: agent.os -equals Windows_NT    # the agent must have this capability to run the job
 
 variables:
   solution: '**/*.sln'
@@ -28,7 +29,10 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: AzureWebApp@1
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    azureSubscription: 'Azure Free subscription'
+    appType: 'webApp'
+    appName: 'ahorcadoAgiles'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'

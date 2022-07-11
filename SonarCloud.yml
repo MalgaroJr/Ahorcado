@@ -49,7 +49,6 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
   inputs:

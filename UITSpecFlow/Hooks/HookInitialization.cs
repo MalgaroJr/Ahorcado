@@ -19,7 +19,7 @@ namespace UITSpecFlow.Hooks
         }
 
         [BeforeScenario(Order = 1)]
-        public void FirstBeforeScenario()
+        public static void FirstBeforeScenario()
         {
             
         }

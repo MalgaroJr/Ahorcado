@@ -12,7 +12,6 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(/*link de la api cuando este*/) });
 
 if (builder.HostEnvironment.IsDevelopment() || builder.HostEnvironment.IsStaging())
 {
@@ -22,6 +21,7 @@ if (builder.HostEnvironment.IsDevelopment() || builder.HostEnvironment.IsStaging
 } 
 if(builder.HostEnvironment.IsProduction())
 {
+    builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://ahorcado-api.azurewebsites.net") });
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IJuegoService,JuegoService>();
 }

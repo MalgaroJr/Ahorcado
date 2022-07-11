@@ -8,8 +8,8 @@ namespace ClasesAhorcado
 {
     public class Mesa
     {
-        List<Usuario> usuarios = new List<Usuario>();
-        List<Usuario> bajaUsuarios = new List<Usuario>();
+        readonly List<Usuario>  usuarios = new List<Usuario>();
+        readonly List<Usuario> bajaUsuarios = new List<Usuario>();
         public void nuevoUsuario(Usuario u)
         {
             usuarios.Add(u);
@@ -33,19 +33,19 @@ namespace ClasesAhorcado
                     return u;
                 }
             }
-            throw new Exception("no hay usuario con ese ID");
+            throw new ArgumentNullException("no hay usuario con ese ID");
         }
-        public int CantUsuarios{get{return usuarios.Count();} }
-        public int CantUsuariosHoy { get { return usuarios.Where(u => u.fechaCreacion == DateTime.Today).Count();} }
+        public int CantUsuarios{get{return usuarios.Count;} }
+        public int CantUsuariosHoy { get { return usuarios.Count(u => u.fechaCreacion == DateTime.Today);} }
 
-        public int CantElimHoy { get { return bajaUsuarios.Where(u => u.fechaEliminacion == DateTime.Today).Count(); } }
+        public int CantElimHoy { get { return bajaUsuarios.Count(u => u.fechaEliminacion == DateTime.Today); } }
 
         public int VictoriasUsuario(int id)
         {
             Usuario u = getUsuario(id);
             if (u != null)
             {
-                return u.Juegos.Where(j => j.ResultadoFinal == Resultados.Ganaste).Count();
+                return u.Juegos.Count(j => j.ResultadoFinal == Resultados.Ganaste);
             }
             return -1;
         }
@@ -55,7 +55,7 @@ namespace ClasesAhorcado
             Usuario u = getUsuario(id);
             if (u != null)
             {
-                return u.Juegos.Where(j => j.ResultadoFinal == Resultados.Perdiste).Count();
+                return u.Juegos.Count(j => j.ResultadoFinal == Resultados.Perdiste);
             }
             return -1;
         }
@@ -64,7 +64,7 @@ namespace ClasesAhorcado
             Usuario u = getUsuario(id);
             if (u != null)
             {
-                return u.Juegos.Count();
+                return u.Juegos.Count;
             }
             return -1;
         }
