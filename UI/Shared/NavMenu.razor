@@ -1,4 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject AuthenticationStateProvider _authStateProvider
+@inject NavigationManager navegar
+@inject ILocalStorageService _localStorageService;
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Ahorcado</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -19,6 +23,16 @@
                 <span class="oi oi-plus" aria-hidden="true"></span> Ahorcado Game
             </NavLink>
         </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="estadisticas">
+                <span class="oi oi-graph" aria-hidden="true"></span>Estadisticas del jugador
+            </NavLink>
+        </div>
+        <div class="footer nav-item px-3">
+            <NavLink class="nav-link" @onclick="(async()=>await Salir())">
+                <span class="oi oi-account-logout" aria-hidden="true"></span>Salir
+            </NavLink>
+        </div>
     </nav>
 </div>
 
@@ -30,5 +44,11 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async Task Salir()
+    {
+        await _localStorageService.ClearAsync();
+        navegar.NavigateTo("/");
     }
 }
