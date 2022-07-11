@@ -10,8 +10,9 @@ namespace ClasesAhorcado
     public class Usuario
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
+        public string Name { get; set; }
         public List<Juego> Juegos { get; set; }
         private static int C = 0;
         public DateTime fechaCreacion { get; set; }
@@ -28,6 +29,15 @@ namespace ClasesAhorcado
         {
             Password = p;
             Name = n;
+        }
+
+        public Usuario(int id, string username, string password, string name,  DateTime fechaCreacion)
+        {
+            Id = id;
+            Username = username;
+            Password = password;
+            Name = name;
+            this.fechaCreacion = fechaCreacion;
         }
 
         private static int genId()

@@ -1,5 +1,9 @@
 ﻿@page "/Ahorcado"
 @using ClasesAhorcado
+@inject NavigationManager navegar
+@inject IJSRuntime JS
+@inject ILocalStorageService _localStorageService;
+@inherits INBase
 
 <PageTitle>Ahorcado</PageTitle>
 <style>
@@ -12,24 +16,26 @@
 </style>
 <body>
     <div class="container-fluid">  
-        <div class="row">
+        <div class="row" id="areainicio">
             <div class="col">
                 <label>Palabra a adivinar</label>
                 <input type="password" class="form-control" name="palabra" @bind="@palabra" />
             </div>
             <div class="col">
                 <br />
-                <button type="button" class="btn btn-primary" name="btnIngresar" @onclick="genPalabra">Ingresar</button>
+                <button type="button" class="btn btn-primary" name="btnIngresar" @onclick="@(async ()=>await genPalabra())">Ingresar</button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-3">
-                <label>Ingrese letra o palabra</label>
-                <input type="text" class="form-control" name="letra" @bind="intento"/>
-            </div>
-            <div class="col-1">
-                <br />
-                <button type="button" class="btn btn-success" @onclick="probar">Probar</button>
+        <div class="row" id="areajuego" hidden="hidden">
+            <div class="input-groupl">
+                <div class="col-3">
+                    <label>Ingrese letra</label>
+                    <input type="text" class="form-control" name="letra" @bind="intento" required="required"/>
+                </div>
+                <div class="col-1">
+                    <br />
+                    <button class="btn btn-primary" type="submit" @onclick="@(async ()=>await probar())">Probar</button>
+                </div>
             </div>
             <div class="col">
                 <label>Letras usadas</label>
@@ -55,6 +61,15 @@
             </div>
         </div>
     </div>
+    <div class="row text-center">
+        <canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;"></canvas> 
+    </div>
+    <div class="row" id="areareset" hidden="hidden">
+        <p class="h5">@msg</p>
+        <div class="text-lg-end">
+            <button class="btn btn-success" @onclick="@(()=>{navegar.NavigateTo("/home");navegar.NavigateTo("/Ahorcado");})">Jugar de nuevo</button>
+        </div>
+    </div>
 </body>
 
 @code {
@@ -67,7 +82,8 @@
     private string palabraAdivina = "";
     private string laPalabraEra = "";
     private Usuario u = new Usuario();
-    private void genPalabra()
+
+    private async Task genPalabra()
     {
         u.nuevoJuego(palabra);
         palabra2 = palabra;
@@ -77,24 +93,118 @@
         vidas = 7;
         palabraAdivina = "";
         laPalabraEra = "";
+        await JS.InvokeVoidAsync("iniciarjuego");
     }
-    private void probar()
+    private async Task probar()
     {
-        char i = intento[0];
+        char i;
+        try
+        {
+            i = intento[0];
+        }
+        catch (Exception)
+        {
+
+            return;
+        }     
+
         Resultados r = u.Ingresar(i);
         palabraAdivina = u.getEstado();
         letras = u.getLetras();
         vidas = u.getVidas();
+        await dibujar(vidas);
         if(r == Resultados.Ganaste)
         {
             resultado = "Ganaste!";
+            await guardarjuego();
         }
         else if(vidas == 0)
         {
             resultado = "Perdiste! :(";
             laPalabraEra = palabra2;
             palabra2 = "";
+            await guardarjuego();
         }
         intento = "";
+    }
+
+    protected string yourName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        yourName = await _localStorageService.GetItemAsStringAsync("username");
+        await dibujar(vidas);
+        if (string.IsNullOrEmpty(yourName))
+        {
+            navegar.NavigateTo("/");
+        }
+    }
+
+    protected async Task dibujar(int v)
+    {
+        switch (v)
+        {
+            case 0:
+                {
+                    await JS.InvokeVoidAsync("ahorcar");
+                    break; 
+                };
+            case 1:
+                { 
+                    await JS.InvokeVoidAsync("pieizquierdo");
+                    break; 
+                };
+            case 2:
+                { 
+                    await JS.InvokeVoidAsync("piederecho");
+                    break; 
+                };
+            case 3:
+                {
+                    await JS.InvokeVoidAsync("manoizquierda");
+                    break;
+                };
+            case 4:
+                { 
+                    await JS.InvokeVoidAsync("manoderecha");
+                    break; 
+                };
+            case 5:
+                { 
+                    await JS.InvokeVoidAsync("cuerpo");
+                    break; 
+                };
+            case 6:
+                { 
+                    await JS.InvokeVoidAsync("cabeza");
+                    break;
+                };
+            case 7:
+                { 
+                    await JS.InvokeVoidAsync("nuevo");
+                    break; 
+                };
+        }
+    }
+
+    protected async Task guardarjuego()
+    {
+        Juego j = u.Juegos.Last();
+        msg = "Guardando";
+        yourName = await _localStorageService.GetItemAsStringAsync("username");
+        u.Username = yourName;
+        try
+        {
+            await RegistrarJuego(u);
+        }
+        catch (Exception e)
+        {
+            msg = e.Message;
+            return;
+        }
+        
+        await JS.InvokeVoidAsync("juegoterminado");
+        msg = "Juego registrado!";
     }
 }

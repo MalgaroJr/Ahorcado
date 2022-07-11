@@ -25,7 +25,7 @@
             {
                 resultadoFinal=value;
             }}
-        public char[] estado { get; }
+        public char[] estado { get; set; }
 
         public Juego(string palabra)
         {

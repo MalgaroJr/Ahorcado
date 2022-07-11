@@ -19,8 +19,8 @@ namespace UITSpecFlow.StepDefinitions
         public void GivenIHaveEnteredSkereAsTheWordToGuess()
         {
             driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").Setup();
-            driver.Url = "https://ahorcadoagiles.azurewebsites.net/ahorcado";
-            Thread.Sleep(4500);
+            driver.Url = "https://localhost:7025/ahorcado";
+            Thread.Sleep(3000);
             driver.FindElement(By.Name("palabra")).SendKeys("skere" + Keys.Tab + Keys.Enter);
         }
 

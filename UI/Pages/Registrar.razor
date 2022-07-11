@@ -1,5 +1,15 @@
 ﻿@page "/registrarse"
 @layout InitLayout
+@inherits OutBase
+@using System.Text.Json
+@using System.Text.Json.Serialization;
+@using ClasesAhorcado;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@inject NavigationManager navegar
+@inject AuthenticationStateProvider _authStateProvider
+@inject ILocalStorageService _localStorageService;
 <PageTitle>Registrarse</PageTitle>
 
 <main class="text-center mt-5 mx-auto" style="max-width: 330px;">
@@ -17,14 +27,14 @@
             <label for="name">Nombre y apellido</label>
         </div>
         <div class="form-floating mt-4">
-            <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña" @bind="contraR"/>
+            <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña" @bind="contra"/>
             <label for="password">Contraseña</label>
         </div>
         <div class="form-floating mt-4">
             <input type="password" class="form-control form-control-lg" id="confirm" name="confirm" placeholder="Contraseña" @bind="contra2"/>
             <label for="confirm">Ingerse nuevamete la contraseña</label>
         </div>
-        <button name="registrar" class="btn btn-primary btn-lg w-100 mt-5" @onclick="Verificar">Registrarse</button>
+        <button name="registrar" class="btn btn-primary btn-lg w-100 mt-5" @onclick="@(async ()=>await Verificar())">Registrarse</button>
         <NavLink href="" class="link-info">Tengo una cuenta</NavLink> 
     </div>
     <div class="alert alert-danger">
@@ -35,15 +45,12 @@
 </main>
 
 @code {
-    private string user="";
     private string name="";
-    private string contraR="";
     private string contra2="";
-    private string msg="";
 
-    void Verificar()
+    public async Task Verificar()
     {
-        if (contraR.Equals(contra2))
+        if (contra.Equals(contra2))
         {
             if (user.Length <= 4)
             {
@@ -52,11 +59,31 @@
             else
             {
                 msg = "Creando usuario...";
+                await Post();
+                await Task.Delay(500);
+                if(await this.Login(user, contra))
+                {
+                    msg = "Usuario creado";
+                    await _localStorageService.SetItemAsStringAsync("isauthenticated", "true");
+                    await _localStorageService.SetItemAsStringAsync("username", user);
+                    navegar.NavigateTo("/home");
+                }
+                else
+                {
+                    msg = $"Error es posible que el nombre {user} no este disponible!";
+                }
+
             }
         }
         else
         {
             msg = "Las contraseñas no coinciden";
         }
+    }
+
+    public async Task Post()
+    {
+        Usuario u = new Usuario(name, contra) { Username = user };
+        await this.UserService.New(u);
     }
 }

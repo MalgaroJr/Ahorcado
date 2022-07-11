@@ -17,7 +17,7 @@ namespace UITSpecFlow.StepDefinitions
         public void GivenINavigatedToTheAhorcadoWebApp()
         {
             driver = _scenarioContext.Get<SeleniumDriver>("SeleniumDriver").Setup();
-            driver.Url = "https://ahorcadoagiles.azurewebsites.net/";
+            driver.Url = "https://localhost:7025";
             Thread.Sleep(4500);
         }
 
@@ -43,7 +43,7 @@ namespace UITSpecFlow.StepDefinitions
         public void ThenIShouldBeLoggedIn()
         {
             string result = driver.FindElement(By.Name("notificacion")).Text;
-            Assert.IsTrue(result.Equals("Correcto"));
+            Assert.IsTrue(result.Equals("Ingresando, por favor espere..."));
 
         }
     }

@@ -1,5 +1,9 @@
 ﻿@page "/"
 @layout InitLayout
+@inherits OutBase
+@inject NavigationManager navegar
+@inject AuthenticationStateProvider _authStateProvider
+@inject ILocalStorageService _localStorageService;
 <PageTitle>Iniciar Sesion</PageTitle>
 
 <main class="text-center mt-5 mx-auto" style="max-width: 330px;">
@@ -10,41 +14,33 @@
     <p class="h2 mt-3">Iniciar sesion</p>
     <div class="form-control shadow mt-5">
         <div class="form-floating mt-4">
-            <input type="text" class="form-control form-control-lg" id="user" name="user" placeholder="Username" @bind="usr"/>
+            <input type="text" class="form-control form-control-lg" id="user" name="user" placeholder="Username" @bind="user"/>
             <label for="user">Nombre de usuario</label>
         </div>
         <div class="form-floating mt-4">
             <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña" @bind="contra"/>
             <label for="password">Contraseña</label>
         </div>
-        <NavLink name="login" class="btn btn-primary btn-lg w-100 mt-5" href="home" @onclick="Ingresar">Login</NavLink>
+        <button name="login" class="btn btn-primary btn-lg w-100 mt-5" @onclick="@(async ()=>await Ingresar())">Login</button>
         <NavLink name="registrar" class="btn btn-success btn-lg w-100 mt-3" href="registrarse">Registrarse</NavLink>
     </div>
     <p class="h6" name="notificacion">@msg</p>
 </main>
 
 @code {
-    private string usr="";
-    private string contra="";
-    private string msg="";
 
-    void Ingresar(){
-        if(usr.Equals("hangman"))
+    async Task Ingresar(){
+        if(await this.Login(user, contra))
         {
-            if(contra.Equals("12345"))
-            {
-                msg = "Correcto";
-                Thread.Sleep(500);
-
-            }
-            else
-            {
-                msg = "Contraseña incorrecta";
-            }
+            msg = "Ingresando, por favor espere...";
+            await _localStorageService.SetItemAsStringAsync("isauthenticated", "true");
+            await _localStorageService.SetItemAsStringAsync("username", user);
+            await Task.Delay(500);
+            navegar.NavigateTo("/home");
         }
         else
         {
-            msg = "Usuario incorrecto";
+            msg = "No fue posible iniciar sesion, revise la contraseña o nombre de usuario";
         }
     }
 }

@@ -1,0 +1,14 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "api": {
+    "local": "https://localhost:7290/",
+    "hosted": ""//agrefar cuando la api este hosteada
+  }
+}

@@ -1,9 +1,24 @@
 ﻿@page "/home"
+@inject NavigationManager navegar
+@inject ILocalStorageService _localStorageService;
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Hello, @yourName</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+    protected string yourName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        yourName = await _localStorageService.GetItemAsStringAsync("username");
+        if (string.IsNullOrEmpty(yourName))
+        {
+            navegar.NavigateTo("/");
+        }
+    }
+}
