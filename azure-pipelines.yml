@@ -1,3 +1,8 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
 trigger:
 - master
 
@@ -7,48 +12,33 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  buildPlatform: 'any cpu'
 
 steps:
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.4.1'
+- task: DotNetCoreCLI@2
   inputs:
-    versionSpec: 4.4.1
-
-- task: NuGetCommand@2
-  displayName: 'NuGet restore'
-  inputs:
-    restoreSolution: 'SomeConsoleApplication.sln'
-
-- task: SonarCloudPrepare@1
-  displayName: 'Prepare analysis configuration'
-  inputs:
-    SonarCloud: 'SC service'
-    organization: 'tmalgarin'
-    scannerMode: 'MSBuild'
-    projectKey: 'tmalgarin_Ahorcado'
-    projectName: 'Ahorcado'
-
-
+    command: 'restore'
+    projects: '**\*.csproj'
+    feedsToUse: 'select'
 - task: VSBuild@1
-  displayName: 'Build solution **\*.sln'
   inputs:
     solution: '**\*.sln'
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: |
+      **/UT.csproj
 
 - task: VSTest@2
-  displayName: 'VsTest - testAssemblies'
   inputs:
+    testSelector: 'testAssemblies'
     testAssemblyVer2: |
-     **\$(BuildConfiguration)\*Test*.dll
-     !**\obj\**
-    codeCoverageEnabled: true
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
+      **\UITSpecFlow.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
 
-- task: SonarCloudAnalyze@1
-  displayName: 'Run SonarCloud analysis'
-
-- task: SonarCloudPublish@1
-  displayName: 'Publish results on build summary'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/TEST-*.xml'
